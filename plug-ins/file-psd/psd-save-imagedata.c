@@ -21,7 +21,7 @@
  #include "psd-save-imagedata.h"
 
 
-guint32 save_imagedata( FILE* f, gint32 merged_layer, GError *error )
+guint32 save_imagedata( FILE* f, gint32 merged_layer, GError **error )
 {
 
   g_debug("\nMERGED IMAGE DATA ");

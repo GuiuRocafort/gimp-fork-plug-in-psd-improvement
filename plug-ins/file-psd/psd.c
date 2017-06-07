@@ -18,22 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "config.h"
-
-#include <string.h>
-
-#include <libgimp/gimp.h>
-#include <libgimp/gimpui.h>
-
-#include "psd.h"
-#include "psd-load.h"
-#include "psd-save.h"
-#include "psd-thumb-load.h"
-
-#include "libgimp/stdplugins-intl.h"
-
-
 /*  Local function prototypes  */
+#include "psd.h"
 
 static void  query (void);
 static void  run   (const gchar     *name,
@@ -42,7 +28,19 @@ static void  run   (const gchar     *name,
                     gint            *nreturn_vals,
                     GimpParam      **return_vals);
 
+static void setSuccessReturnValue( gint *nreturn_vals,
+                            GimpParam **return_vals,
+                            guint32 image_ID );
 
+static void setExecutionErrorReturnValue( gint* nreturn_vals,
+                                          GimpParam **return_vals,
+                                          GError** error  );
+
+static void setSuccessThumbnailReturnValue( gint *nreturn_vals,
+                                            GimpParam **return_vals,
+                                            guint32 image_ID,
+                                            gint width,
+                                            gint height );
 /*  Local variables  */
 
 GimpPlugInInfo PLUG_IN_INFO =
@@ -159,197 +157,118 @@ run (const gchar      *name,
      gint             *nreturn_vals,
      GimpParam       **return_vals)
 {
-  static GimpParam  values[4];
   GimpRunMode       run_mode;
-  GimpPDBStatusType status = GIMP_PDB_SUCCESS;
-  gint32            image_ID;
-  GError           *error  = NULL;
+  gint32            image_ID = -1;
+  GError            *error = NULL;
+  gboolean         resolution_loaded;
+  gint width, height;
 
   run_mode = param[0].data.d_int32;
 
   INIT_I18N ();
   gegl_init (NULL, NULL);
 
-  *nreturn_vals = 1;
-  *return_vals  = values;
+  switch( run_mode){
+  case GIMP_RUN_INTERACTIVE:
+  case GIMP_RUN_WITH_LAST_VALS:
+    gimp_ui_init( PLUG_IN_BINARY, FALSE );
+    break;
+  default:
+    break;
+  }
 
-  values[0].type          = GIMP_PDB_STATUS;
-  values[0].data.d_status = GIMP_PDB_EXECUTION_ERROR;
-
+  //Load Procedure
   if (strcmp (name, LOAD_PROC) == 0)
     {
-      gboolean resolution_loaded = FALSE;
-      gboolean interactive;
-
-      switch (run_mode)
+      image_ID = load_image( param[1].data.d_string, &resolution_loaded, &error );
+      if(  image_ID != -1 )
         {
-        case GIMP_RUN_INTERACTIVE:
-        case GIMP_RUN_WITH_LAST_VALS:
-          gimp_ui_init (PLUG_IN_BINARY, FALSE);
-          interactive = TRUE;
-          break;
-        default:
-          interactive = FALSE;
-          break;
+          setSuccessReturnValue( nreturn_vals, return_vals, image_ID );
         }
-
-      image_ID = load_image (param[1].data.d_string,
-                             &resolution_loaded, &error);
-
-      if (image_ID != -1)
-        {
-          GFile        *file = g_file_new_for_path (param[1].data.d_string);
-          GimpMetadata *metadata;
-
-          metadata = gimp_image_metadata_load_prepare (image_ID, "image/x-psd",
-                                                       file, NULL);
-
-          if (metadata)
-            {
-              GimpMetadataLoadFlags flags = GIMP_METADATA_LOAD_ALL;
-
-              if (resolution_loaded)
-                flags &= ~GIMP_METADATA_LOAD_RESOLUTION;
-
-              gimp_image_metadata_load_finish (image_ID, "image/x-psd",
-                                               metadata, flags,
-                                               interactive);
-
-              g_object_unref (metadata);
-            }
-
-          g_object_unref (file);
-
-          *nreturn_vals = 2;
-          values[1].type         = GIMP_PDB_IMAGE;
-          values[1].data.d_image = image_ID;
-        }
-      else
-        {
-          status = GIMP_PDB_EXECUTION_ERROR;
-        }
+      else{
+        g_debug("LOAD IMAGE RETURNED ERROR" );
+        setExecutionErrorReturnValue( nreturn_vals, return_vals, &error );
+      }
     }
+
+  //Load thumbnail
   else if (strcmp (name, LOAD_THUMB_PROC) == 0)
     {
-      if (nparams < 2)
+      image_ID = load_image_thumbnail( param[1].data.d_string, &width, &height, &error );
+      if( image_ID != -1 )
         {
-          status = GIMP_PDB_CALLING_ERROR;
+          setSuccessThumbnailReturnValue( nreturn_vals, return_vals, image_ID, width, height );
         }
-      else
-        {
-          const gchar *filename = param[0].data.d_string;
-          gint         width    = 0;
-          gint         height   = 0;
-
-          image_ID = load_thumbnail_image (filename, &width, &height, &error);
-
-          if (image_ID != -1)
-            {
-              *nreturn_vals = 4;
-              values[1].type         = GIMP_PDB_IMAGE;
-              values[1].data.d_image = image_ID;
-              values[2].type         = GIMP_PDB_INT32;
-              values[2].data.d_int32 = width;
-              values[3].type         = GIMP_PDB_INT32;
-              values[3].data.d_int32 = height;
-            }
-          else
-            {
-              status = GIMP_PDB_EXECUTION_ERROR;
-            }
-        }
+      else{
+        g_debug("LOAD THUMBNAIL RETURNED ERROR" );
+        setExecutionErrorReturnValue( nreturn_vals, return_vals, &error );
+      }
     }
+
+  //Save File
   else if (strcmp (name, SAVE_PROC) == 0)
     {
-      gint32                 drawable_id;
-      GimpMetadata          *metadata;
-      GimpMetadataSaveFlags  metadata_flags;
-      GimpExportReturn       export = GIMP_EXPORT_IGNORE;
-
-      IFDBG(2) g_debug ("\n---------------- %s ----------------\n",
-                        param[3].data.d_string);
-
-      image_ID    = param[1].data.d_int32;
-      drawable_id = param[2].data.d_int32;
-
-      switch (run_mode)
+      if( save_image( param[3].data.d_string, param[1].data.d_int32 , &error  ) != -1 )
         {
-        case GIMP_RUN_INTERACTIVE:
-        case GIMP_RUN_WITH_LAST_VALS:
-          gimp_ui_init (PLUG_IN_BINARY, FALSE);
-
-          export = gimp_export_image (&image_ID, &drawable_id, "PSD",
-                                      GIMP_EXPORT_CAN_HANDLE_RGB     |
-                                      GIMP_EXPORT_CAN_HANDLE_GRAY    |
-                                      GIMP_EXPORT_CAN_HANDLE_INDEXED |
-                                      GIMP_EXPORT_CAN_HANDLE_ALPHA   |
-                                      GIMP_EXPORT_CAN_HANDLE_LAYERS  |
-                                      GIMP_EXPORT_CAN_HANDLE_LAYER_MASKS);
-
-          if (export == GIMP_EXPORT_CANCEL)
-            {
-              values[0].data.d_status = GIMP_PDB_CANCEL;
-              return;
-            }
-          break;
-
-        default:
-          break;
+          setSuccessReturnValue( nreturn_vals, return_vals, image_ID );
         }
-
-      metadata = gimp_image_metadata_save_prepare (image_ID,
-                                                   "image/x-psd",
-                                                   &metadata_flags);
-
-      if (save_image (param[3].data.d_string, image_ID, &error))
-        {
-          if (metadata)
-            {
-              GFile *file;
-
-              gimp_metadata_set_bits_per_sample (metadata, 8);
-
-              file = g_file_new_for_path (param[3].data.d_string);
-              gimp_image_metadata_save_finish (image_ID,
-                                               "image/x-psd",
-                                               metadata, metadata_flags,
-                                               file, NULL);
-              g_object_unref (file);
-            }
-
-          values[0].data.d_status = GIMP_PDB_SUCCESS;
-        }
-      else
-        {
-          values[0].data.d_status = GIMP_PDB_EXECUTION_ERROR;
-
-          if (error)
-            {
-              *nreturn_vals = 2;
-              values[1].type          = GIMP_PDB_STRING;
-              values[1].data.d_string = error->message;
-            }
-        }
-
-      if (export == GIMP_EXPORT_EXPORT)
-        gimp_image_delete (image_ID);
-
-      if (metadata)
-        g_object_unref (metadata);
+      else{
+        g_debug("SAVE IMAGE RETURNED ERROR");
+        setExecutionErrorReturnValue( nreturn_vals, return_vals, &error );
+      }
     }
 
-  /* Unknown procedure */
+  //Unknown procedure
   else
     {
-      status = GIMP_PDB_CALLING_ERROR;
+      //Call error
     }
+}
 
-  if (status != GIMP_PDB_SUCCESS && error)
+
+static void
+setSuccessReturnValue( gint *nreturn_vals, GimpParam **return_vals, guint32 image_ID )
+{
+  static GimpParam values[2];
+  *nreturn_vals = 2;
+  *return_vals = values;
+
+  values[0].type = GIMP_PDB_STATUS;
+  values[0].data.d_status = GIMP_PDB_SUCCESS;
+  values[1].type = GIMP_PDB_IMAGE;
+  values[1].data.d_image = image_ID;
+}
+
+static void
+setSuccessThumbnailReturnValue( gint *nreturn_vals, GimpParam **return_vals, guint32 image_ID, gint width, gint height )
+{
+    static GimpParam values[4];
+  *nreturn_vals = 4;
+  *return_vals = values;
+
+  values[0].type = GIMP_PDB_STATUS;
+  values[0].data.d_status = GIMP_PDB_SUCCESS;
+  values[1].type = GIMP_PDB_IMAGE;
+  values[1].data.d_image = image_ID;
+  values[2].type = GIMP_PDB_INT32;
+  values[2].data.d_int32 = width;
+  values[3].type = GIMP_PDB_INT32;
+  values[3].data.d_int32 = height;
+
+}
+
+static void
+setExecutionErrorReturnValue( gint* nreturn_vals, GimpParam **return_vals, GError** error  )
+{
+  static GimpParam values[2];
+  *nreturn_vals = 2;
+  *return_vals = values;
+
+  values[0].type = GIMP_PDB_STATUS;
+  values[0].data.d_status = GIMP_PDB_EXECUTION_ERROR;
+  if( error )
     {
-      *nreturn_vals = 2;
-      values[1].type          = GIMP_PDB_STRING;
-      values[1].data.d_string = error->message;
+      values[1].type = GIMP_PDB_STRING;
+      values[1].data.d_string =  "Execution ERROR ";
     }
-
-  values[0].data.d_status = status;
 }

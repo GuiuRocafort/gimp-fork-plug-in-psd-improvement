@@ -20,7 +20,7 @@
 
 #include "psd-save-img-res.h"
 
-guint32 save_image_resources( FILE* f, GError* error, gint32 image_ID )
+guint32 save_image_resources( FILE* f, GError** error, gint32 image_ID )
 {
   //Empty images resources
   write32bitInteger(0, f, error );

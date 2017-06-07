@@ -20,7 +20,7 @@
 
 #include "psd-load-img-res.h"
 
-guint32 read_img_res( FILE* f )
+guint32 read_img_res( FILE* f, GError** error )
 {
   guint32 length;
   gint32 position, end;
@@ -38,14 +38,14 @@ guint32 read_img_res( FILE* f )
 
   while( position < end )
     {
-      read_resource( f );
+      read_resource( f, error );
       position = ftell(f);
     }
 
   return 0;
 }
 
-guint32 read_resource( FILE* f )
+guint32 read_resource( FILE* f, GError** error )
 {
   gchar signature[4];
   PSDImageResID resource;

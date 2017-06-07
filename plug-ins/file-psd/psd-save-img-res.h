@@ -35,7 +35,6 @@
 
 #include "libgimp/stdplugins-intl.h"
 
-guint32 save_image_resources( FILE* f, GError* error, gint32 image_ID );
-guint32 save_resource_1032( FILE* f, GError* error, gint image_ID );
+guint32 save_image_resources( FILE* f, GError** error, gint32 image_ID );
 
 #endif

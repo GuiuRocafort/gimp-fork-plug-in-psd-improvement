@@ -20,7 +20,7 @@
 
 #include "psd-load-header.h"
 
-guint32 read_file_header( FILE* f, PSDimage *img, GError* error )
+guint32 read_file_header( FILE* f, PSDimage *img, GError** error )
 {
   gchar signature[4];
   guint16 version;

@@ -20,7 +20,7 @@
 
 #include "load-utils.h"
 
-FILE* open_file( const gchar* filename, GError* error )
+FILE* open_file( const gchar* filename, GError** error )
 {
   FILE* f;
   struct stat st;
@@ -118,7 +118,7 @@ guint32 skipFileBlock( FILE* f, guint32 length )
   return 0;
 }
 
-guint32 read_raw_imagedata( FILE* f, gint32 layer, GError* error )
+guint32 read_raw_imagedata( FILE* f, gint32 layer, GError** error )
 {
   gint32 width, height, bpp, length, single_pixel, channels, npixels;
   GeglBuffer* buffer;

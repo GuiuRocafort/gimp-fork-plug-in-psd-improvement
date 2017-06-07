@@ -20,7 +20,7 @@
 
 #include "psd-save-header.h"
 
-guint32 save_psd_header( FILE* f, GError* error, gint32 merged_layer, gint32 precision )
+guint32 save_psd_header( FILE* f, GError** error, gint32 merged_layer, gint32 precision )
 {
   gint32 channels;
   gint32 width;

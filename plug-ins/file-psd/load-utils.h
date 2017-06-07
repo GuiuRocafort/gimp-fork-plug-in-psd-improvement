@@ -33,7 +33,7 @@
 
 
 /* File opening */
-FILE* open_file( const gchar* filename, GError* error );
+FILE* open_file( const gchar* filename, GError** error );
 
 /* Data reading functions */
 void readPascalString( FILE* f, gchar* str, gint32 *str_len );
@@ -44,6 +44,6 @@ guint32 read32bitInteger( FILE* f );
 /* Block skipping */
 guint32 skipFileBlock( FILE* f, guint32 length );
 
-guint32 read_raw_imagedata( FILE* f, gint32 layer, GError* error );
+guint32 read_raw_imagedata( FILE* f, gint32 layer, GError** error );
 
 #endif

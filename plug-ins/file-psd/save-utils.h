@@ -32,11 +32,11 @@
 
 #include "libgimp/stdplugins-intl.h"
 
-FILE* open_file_wb( const gchar* filename, GError* error );
-guint32 write4charSignature( const gchar* sig, FILE* f, GError* error );
-guint32 write16bitInteger( gint16 value, FILE* f, GError* error );
-guint32 write32bitInteger( gint32 value, FILE* f, GError* error );
+FILE* open_file_wb( const gchar* filename, GError** error );
+guint32 write4charSignature( const gchar* sig, FILE* f, GError** error );
+guint32 write16bitInteger( gint16 value, FILE* f, GError** error );
+guint32 write32bitInteger( gint32 value, FILE* f, GError** error );
 const Babl* get_drawable_format( gint32 layer, gint32* channels );
-guint32 write_raw_imagedata( FILE* f, gint32 layer, GError* error );
+guint32 write_raw_imagedata( FILE* f, gint32 layer, GError** error );
 
 #endif

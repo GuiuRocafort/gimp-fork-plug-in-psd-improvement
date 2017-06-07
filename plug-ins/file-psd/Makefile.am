@@ -22,27 +22,39 @@ AM_LDFLAGS = $(mwindows)
 libexecdir = $(gimpplugindir)/plug-ins
 
 libexec_PROGRAMS = \
-	file-psd
+	file-psd 
 
 file_psd_SOURCES = \
 	psd.c			\
 	psd.h			\
-	psd-util.c		\
-	psd-util.h		\
 	psd-load.c		\
 	psd-load.h		\
-	psd-save.c		\
-	psd-save.h		\
+	psd-load-header.c	\
+	psd-load-header.h	\
+	psd-load-colormode.c	\
+	psd-load-colormode.h	\
+	psd-load-img-res.c	\
+	psd-load-img-res.h	\
+	load-resources.c	\
+	load-resources.h	\
+	psd-load-layer-mask.c	\
+	psd-load-layer-mask.h	\
+	psd-load-imagedata.c	\
+	psd-load-imagedata.h	\
 	psd-thumb-load.c	\
 	psd-thumb-load.h	\
-	psd-image-res-load.c	\
-	psd-image-res-load.h	\
-	psd-layer-res-load.c	\
-	psd-layer-res-load.h
-
-EXTRA_DIST = \
-	TODO.txt		\
-	new-resource-ids.txt
+	load-utils.c		\
+	load-utils.h		\
+	psd-save.c		\
+	psd-save.h		\
+	psd-save-header.c	\
+	psd-save-header.h	\
+	psd-save-img-res.c	\
+	psd-save-img-res.h	\
+	psd-save-imagedata.c	\
+	psd-save-imagedata.h	\
+	save-utils.c		\
+	save-utils.h
 
 AM_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"file-psd\"	\

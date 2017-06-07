@@ -20,7 +20,7 @@
 
 #include "psd-load-imagedata.h"
 
-guint32 read_image_data( FILE* f, guint32 image_ID, PSDimage *img )
+guint32 read_image_data( FILE* f, guint32 image_ID, PSDimage *img, GError** error  )
 {
   guint32 compression;
 
@@ -31,7 +31,7 @@ guint32 read_image_data( FILE* f, guint32 image_ID, PSDimage *img )
   switch( compression ){
     case PSD_COMP_RAW:
       g_debug("Compression: RAW ");
-      if( read_raw_image_data( f, image_ID, img ) == -1 ) return -1;
+      if( read_raw_image_data( f, image_ID, img, error ) == -1 ) return -1;
       break;
     case PSD_COMP_RLE:
       g_debug("Image Compression: RLE ");
@@ -50,7 +50,7 @@ guint32 read_image_data( FILE* f, guint32 image_ID, PSDimage *img )
   return 0;
 }
 
-guint32 read_raw_image_data( FILE* f, guint32 image_ID, PSDimage *img )
+guint32 read_raw_image_data( FILE* f, guint32 image_ID, PSDimage *img ,GError **error )
 {
 
   GeglBuffer* buffer;

@@ -123,7 +123,7 @@ typedef enum {
   PSD_PRINT_FLAGS_2     = 10000         /* 0x2710 - Print flags */
 } PSDImageResID;
 
-guint32 read_img_res( FILE* f );
-guint32 read_resource( FILE* f );
+guint32 read_img_res( FILE* f, GError **error );
+guint32 read_resource( FILE* f, GError **error );
 
 #endif

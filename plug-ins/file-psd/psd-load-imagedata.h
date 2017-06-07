@@ -33,8 +33,8 @@
 #include "load-utils.h"
 #include "psd.h"
 
-guint32 read_image_data( FILE* f, guint32 image_ID, PSDimage *img );
+guint32 read_image_data( FILE* f, guint32 image_ID, PSDimage *img, GError **error );
 
-guint32 read_raw_image_data( FILE* f, guint32 image_ID, PSDimage *img );
+guint32 read_raw_image_data( FILE* f, guint32 image_ID, PSDimage *img, GError **error );
 
 #endif

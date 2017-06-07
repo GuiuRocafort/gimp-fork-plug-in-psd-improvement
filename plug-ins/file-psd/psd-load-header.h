@@ -32,6 +32,6 @@
 #include <libgimp/gimp.h>
 #include <libgimpbase/gimpbaseenums.h>
 
-guint32 read_file_header(FILE *f, PSDimage* img, GError* error );
+guint32 read_file_header(FILE *f, PSDimage* img, GError** error );
 
 #endif

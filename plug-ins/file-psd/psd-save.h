@@ -1,6 +1,9 @@
 /* GIMP - The GNU Image Manipulation Program
  * Copyright (C) 1995 Spencer Kimball and Peter Mattis
  *
+ * GIMP PSD Plug-in
+ * Copyright 2007 by John Marshall
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
@@ -15,13 +18,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PSD_SAVE_H__
-#define __PSD_SAVE_H__
+#ifndef __PSD_SAVE__
+#define __PSD_SAVE__
 
+#include "config.h"
 
-gboolean   save_image (const gchar  *filename,
-                       gint32        image_id,
-                       GError      **error);
+#include <string.h>
+#include <errno.h>
 
+#include <glib/gstdio.h>
+#include <zlib.h>
+#include <libgimp/gimp.h>
 
-#endif /* __PSD_SAVE_H__ */
+#include "save-utils.h"
+#include "psd-save-header.h"
+#include "psd-save-img-res.h"
+#include "psd-save-imagedata.h"
+
+guint32 save_image( const char* filename,
+                    gint32 image_id ,
+                    GError **error );
+
+#endif

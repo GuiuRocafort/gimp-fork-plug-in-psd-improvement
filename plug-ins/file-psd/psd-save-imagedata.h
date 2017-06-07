@@ -35,7 +35,7 @@
 
 #include "libgimp/stdplugins-intl.h"
 
-guint32 save_imagedata( FILE* f, gint32 merged_image, GError *error );
+guint32 save_imagedata( FILE* f, gint32 merged_image, GError **error );
 
 
 #endif

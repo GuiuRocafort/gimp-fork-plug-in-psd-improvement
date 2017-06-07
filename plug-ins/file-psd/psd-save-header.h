@@ -36,6 +36,6 @@
 
 #include "psd.h"
 
-guint32 save_psd_header( FILE* f, GError* error, gint32 image_id, gint32 precision );
+guint32 save_psd_header( FILE* f, GError** error, gint32 image_id, gint32 precision );
 
 #endif

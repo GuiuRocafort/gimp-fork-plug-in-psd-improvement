@@ -31,6 +31,6 @@
 #include <libgimp/gimp.h>
 #include "load-utils.h"
 
-guint32 read_layer_mask_info( FILE* f );
+guint32 read_layer_mask_info( FILE* f, GError **error );
 
 #endif

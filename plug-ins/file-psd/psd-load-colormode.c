@@ -20,7 +20,7 @@
 
 #include "psd-load-colormode.h"
 
-guint32 read_color_mode( FILE* f )
+guint32 read_color_mode( FILE* f, GError** error )
 {
   guint32 skip_section;
   guint32 length;

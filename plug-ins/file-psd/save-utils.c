@@ -20,7 +20,7 @@
 
 #include "save-utils.h"
 
-FILE* open_file_wb( const gchar* filename, GError* error )
+FILE* open_file_wb( const gchar* filename, GError** error )
 {
   FILE* f;
 
@@ -36,7 +36,7 @@ FILE* open_file_wb( const gchar* filename, GError* error )
   return f;
 }
 
-guint32 write4charSignature( const gchar* sig, FILE* f, GError* error )
+guint32 write4charSignature( const gchar* sig, FILE* f, GError** error )
 {
   size_t result = fwrite( sig, 4, 1, f);
   if( result != 4 )
@@ -47,7 +47,7 @@ guint32 write4charSignature( const gchar* sig, FILE* f, GError* error )
   return 0;
 }
 
-guint32 write16bitInteger( gint16 value, FILE* f, GError* error )
+guint32 write16bitInteger( gint16 value, FILE* f, GError** error )
 {
   guchar b[2];
 
@@ -63,7 +63,7 @@ guint32 write16bitInteger( gint16 value, FILE* f, GError* error )
 }
 
 
-guint32 write32bitInteger( gint32 value, FILE* f, GError* error )
+guint32 write32bitInteger( gint32 value, FILE* f, GError** error )
 {
    guchar b[4];
 
@@ -172,7 +172,7 @@ const Babl* get_drawable_format( gint32 layer, gint32* channels )
   return format;
 }
 
-guint32 write_raw_imagedata( FILE* f, gint32 layer, GError* error )
+guint32 write_raw_imagedata( FILE* f, gint32 layer, GError** error )
 {
   gint32 width, height, bpp, length, single_pixel, channels, npixels;
   GeglBuffer* buffer;

@@ -20,7 +20,7 @@
 
 #include "psd-load-layer-mask.h"
 
-guint32 read_layer_mask_info( FILE* f )
+guint32 read_layer_mask_info( FILE* f, GError **error )
 {
   guint32 skip;
   guint32 length;

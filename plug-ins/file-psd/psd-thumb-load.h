@@ -18,14 +18,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PSD_THUMB_LOAD_H__
-#define __PSD_THUMB_LOAD_H__
+#ifndef __PSD_THUMB_LOAD__
+#define __PSD_THUMB_LOAD__
 
+#include "config.h"
 
-gint32 load_thumbnail_image (const gchar  *filename,
-                             gint         *width,
-                             gint         *height,
-                             GError      **error);
+#include <string.h>
+#include <errno.h>
 
+#include <glib/gstdio.h>
+#include <zlib.h>
+#include <libgimp/gimp.h>
+#include "load-utils.h"
+#include "psd.h"
 
-#endif /* __PSD_THUMB_LOAD_H__ */
+guint32 load_image_thumbnail ( const gchar* filename,
+                               gint32* width,
+                               gint32* height,
+                               GError** error  );
+
+#endif

@@ -18,13 +18,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PSD_LOAD_H__
-#define __PSD_LOAD_H__
+#ifndef __PSD_LOAD__
+#define __PSD_LOAD__
 
+#include "config.h"
 
-gint32  load_image (const gchar  *filename,
-                    gboolean     *resolution_loaded,
-                    GError      **error);
+#include <string.h>
+#include <errno.h>
 
+#include <glib/gstdio.h>
+#include <zlib.h>
+#include <libgimp/gimp.h>
+#include "load-utils.h"
 
-#endif /* __PSD_LOAD_H__ */
+guint32 load_image( const char* filename, gboolean *resolution_loaded, GError **error );
+
+#endif
