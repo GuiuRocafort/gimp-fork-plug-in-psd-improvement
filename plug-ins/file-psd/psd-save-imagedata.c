@@ -24,7 +24,7 @@
 guint32 save_imagedata( FILE* f, gint32 merged_layer, GError **error )
 {
 
-  g_debug("\nMERGED IMAGE DATA ");
+  g_debug("MERGED IMAGE DATA ");
   g_debug("Compression : RAW" );
 
   //RAW

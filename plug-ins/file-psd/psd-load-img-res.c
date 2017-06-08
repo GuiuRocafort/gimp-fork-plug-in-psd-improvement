@@ -23,24 +23,16 @@
 guint32 read_img_res( FILE* f, GError** error )
 {
   guint32 length;
-  gint32 position, end;
 
   g_debug("IMAGE RESOURCES");
 
   //Length of the section
   length = read32bitInteger( f );
-  if( length <= 0 ) return -1;
 
   g_debug( "Length: %d\n" , length );
 
-  position = ftell(f);
-  end = position + length;
-
-  while( position < end )
-    {
-      read_resource( f, error );
-      position = ftell(f);
-    }
+  g_debug("SKIPPING");
+  skipFileBlock( f, length );
 
   return 0;
 }
