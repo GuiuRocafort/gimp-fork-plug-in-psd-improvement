@@ -21,17 +21,8 @@
 #ifndef __PSD_LOAD_IMAGE_DATA__
 #define __PSD_LOAD_IMAGE_DATA__
 
-
-#include "config.h"
-
-#include <string.h>
-#include <errno.h>
-
-#include <glib/gstdio.h>
-#include <zlib.h>
-#include <libgimp/gimp.h>
+#include "common.h"
 #include "load-utils.h"
-#include "psd.h"
 
 guint32 read_image_data( FILE* f, guint32 image_ID, PSDimage *img, GError **error );
 

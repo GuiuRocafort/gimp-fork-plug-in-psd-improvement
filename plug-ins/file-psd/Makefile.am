@@ -54,7 +54,8 @@ file_psd_SOURCES = \
 	psd-save-imagedata.c	\
 	psd-save-imagedata.h	\
 	save-utils.c		\
-	save-utils.h
+	save-utils.h		\
+	common.h
 
 AM_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"file-psd\"	\

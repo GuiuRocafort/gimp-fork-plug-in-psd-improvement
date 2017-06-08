@@ -21,16 +21,8 @@
 #ifndef __PSD_LOAD_IMG_RES__
 #define __PSD_LOAD_IMG_RES__
 
-#include "config.h"
-
-#include <string.h>
-#include <errno.h>
-
-#include <glib/gstdio.h>
-#include <zlib.h>
-#include <libgimp/gimp.h>
+#include "common.h"
 #include "load-utils.h"
-#include "load-resources.h"
 
 /* Image Resource IDs */
 typedef enum {

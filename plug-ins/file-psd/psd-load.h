@@ -21,15 +21,13 @@
 #ifndef __PSD_LOAD__
 #define __PSD_LOAD__
 
-#include "config.h"
-
-#include <string.h>
-#include <errno.h>
-
-#include <glib/gstdio.h>
-#include <zlib.h>
-#include <libgimp/gimp.h>
+#include "common.h"
 #include "load-utils.h"
+#include "psd-load-header.h"
+#include "psd-load-colormode.h"
+#include "psd-load-img-res.h"
+#include "psd-load-layer-mask.h"
+#include "psd-load-imagedata.h"
 
 guint32 load_image( const char* filename, gboolean *resolution_loaded, GError **error );
 

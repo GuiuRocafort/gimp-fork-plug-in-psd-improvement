@@ -21,16 +21,8 @@
 #ifndef __PSD_THUMB_LOAD__
 #define __PSD_THUMB_LOAD__
 
-#include "config.h"
-
-#include <string.h>
-#include <errno.h>
-
-#include <glib/gstdio.h>
-#include <zlib.h>
-#include <libgimp/gimp.h>
+#include "common.h"
 #include "load-utils.h"
-#include "psd.h"
 
 guint32 load_image_thumbnail ( const gchar* filename,
                                gint32* width,

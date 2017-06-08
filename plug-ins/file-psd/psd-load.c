@@ -18,14 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "psd.h"
 #include "psd-load.h"
-#include "psd-load-header.h"
-#include "psd-load-colormode.h"
-#include "psd-load-img-res.h"
-#include "psd-load-layer-mask.h"
-#include "psd-load-imagedata.h"
-#include "load-utils.h"
 
 guint32 load_image( const char* filename, gboolean *resolution_loaded, GError **error )
 {

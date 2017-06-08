@@ -21,16 +21,7 @@
 #ifndef __PSD_LOAD_RESOURCES__
 #define __PSD_LOAD_RESOURCES__
 
-
-#include "config.h"
-
-#include <string.h>
-#include <errno.h>
-
-#include <glib/gstdio.h>
-#include <zlib.h>
-#include <libgimp/gimp.h>
-#include "load-utils.h"
+#include "common.h"
 
 guint32 load_resource_1032( FILE* f );
 

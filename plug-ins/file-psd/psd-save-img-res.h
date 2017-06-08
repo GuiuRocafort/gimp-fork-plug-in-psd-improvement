@@ -21,19 +21,8 @@
 #ifndef __PSD_SAVE_IMG_RES__
 #define __PSD_SAVE_IMG_RES__
 
-#include "config.h"
-
-#include <string.h>
-
-#include <libgimp/gimp.h>
-#include <libgimp/gimpui.h>
-
-#include "psd.h"
-#include "psd-load.h"
-#include "psd-save.h"
+#include "common.h"
 #include "save-utils.h"
-
-#include "libgimp/stdplugins-intl.h"
 
 guint32 save_image_resources( FILE* f, GError** error, gint32 image_ID );
 

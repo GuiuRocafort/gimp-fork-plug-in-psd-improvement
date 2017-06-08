@@ -21,16 +21,8 @@
 #ifndef __PSD_LOAD_HEADER__
 #define __PSD_LOAD_HEADER__
 
-#include "config.h"
-
-#include <string.h>
-#include <errno.h>
-#include "psd.h"
-
-#include <glib/gstdio.h>
-#include <zlib.h>
-#include <libgimp/gimp.h>
-#include <libgimpbase/gimpbaseenums.h>
+#include "common.h"
+#include "load-utils.h"
 
 guint32 read_file_header(FILE *f, PSDimage* img, GError** error );
 

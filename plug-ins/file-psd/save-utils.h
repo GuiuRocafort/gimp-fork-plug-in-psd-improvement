@@ -21,16 +21,7 @@
 #ifndef __SAVE_UTILS__
 #define __SAVE_UTILS__
 
-#include "config.h"
-
-#include <string.h>
-#include <errno.h>
-
-#include <glib/gstdio.h>
-#include <zlib.h>
-#include <libgimp/gimp.h>
-
-#include "libgimp/stdplugins-intl.h"
+#include "common.h"
 
 FILE* open_file_wb( const gchar* filename, GError** error );
 guint32 write4charSignature( const gchar* sig, FILE* f, GError** error );

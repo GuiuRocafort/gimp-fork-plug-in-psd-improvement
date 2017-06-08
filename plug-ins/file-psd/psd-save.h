@@ -21,15 +21,7 @@
 #ifndef __PSD_SAVE__
 #define __PSD_SAVE__
 
-#include "config.h"
-
-#include <string.h>
-#include <errno.h>
-
-#include <glib/gstdio.h>
-#include <zlib.h>
-#include <libgimp/gimp.h>
-
+#include "common.h"
 #include "save-utils.h"
 #include "psd-save-header.h"
 #include "psd-save-img-res.h"

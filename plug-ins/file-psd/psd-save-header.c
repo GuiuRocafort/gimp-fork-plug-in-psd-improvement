@@ -20,43 +20,31 @@
 
 #include "psd-save-header.h"
 
-guint32 save_psd_header( FILE* f, GError** error, gint32 merged_layer, gint32 precision )
+guint32 save_psd_header( FILE* f, GIMPimage *img  ,GError** error )
 {
-  gint32 channels;
-  gint32 width;
-  gint32 height;
-  gint16 color_mode;
+  gint32 width, height;
+  gint16 channels, depth, color_mode;
 
-  write4charSignature( "8BPS", f, error );
-  write16bitInteger( 1, f, error );
+  /* First, initialize the variables and make
+     conversions from gimp variables */
 
-  //Reserved
-  write32bitInteger( 0, f, error );
-  write16bitInteger( 0, f, error );
+  width = img->width;
+  height = img->height;
 
-  width = gimp_drawable_width( merged_layer );
-  height = gimp_drawable_height( merged_layer );
-  get_drawable_format( merged_layer, &channels );
-
-  switch( precision )
+  switch( img->precision )
     {
-    case GIMP_PRECISION_U8_LINEAR:
-      return -1;
-      break;
     case GIMP_PRECISION_U8_GAMMA:
-      precision = 8;
-      break;
-    case GIMP_PRECISION_U16_LINEAR:
-      return -1;
+      depth = 8;
       break;
     case GIMP_PRECISION_U16_GAMMA:
-      precision = 16;
+      depth = 16;
+      break;
+    case GIMP_PRECISION_U32_GAMMA:
+      depth = 32;
       break;
     case GIMP_PRECISION_U32_LINEAR:
-      return -1;
-    case GIMP_PRECISION_U32_GAMMA:
-      precision = 32;
-      break;
+    case GIMP_PRECISION_U16_LINEAR:
+    case GIMP_PRECISION_U8_LINEAR:
     case GIMP_PRECISION_HALF_LINEAR:
     case GIMP_PRECISION_HALF_GAMMA:
     case GIMP_PRECISION_FLOAT_LINEAR:
@@ -68,15 +56,68 @@ guint32 save_psd_header( FILE* f, GError** error, gint32 merged_layer, gint32 pr
       break;
     }
 
-  if( gimp_drawable_is_rgb( merged_layer ) )   color_mode = 3;
-  if( gimp_drawable_is_indexed( merged_layer ) ) color_mode = 2;
-  if( gimp_drawable_is_gray( merged_layer ) ) color_mode = 1;
+  switch( img->image_type )
+    {
+    case GIMP_RGB_IMAGE:
+      channels = 3;
+      color_mode = PSD_RGB;
+      break;
+    case GIMP_RGBA_IMAGE:
+      channels = 4;
+      color_mode = PSD_RGB;
+      break;
+    case GIMP_GRAY_IMAGE:
+      channels = 1;
+      color_mode = PSD_GRAYSCALE;
+      break;
+    case GIMP_GRAYA_IMAGE:
+      channels = 2;
+      color_mode = PSD_GRAYSCALE;
+      break;
+    case GIMP_INDEXED_IMAGE:
+      channels = 1;
+      color_mode = PSD_INDEXED;
+      break;
+    case GIMP_INDEXEDA_IMAGE:
+      channels = 2;
+      color_mode = PSD_INDEXED;
+      break;
+    default:
+      return -1;
+      break;
+    }
+
+  /* Sanitize variables before writting the header   */
+
+  if( channels < 1 || channels > PSD_MAX_CHANNELS )
+    {
+      return -1;
+    }
+
+  if( width < 1 || width > PSD_MAX_DIMENSIONS ||
+      height < 1 || height > PSD_MAX_DIMENSIONS )
+    {
+      return -1;
+    }
+
+  // Note Depth and color_mode are already sanitized
+
+  /* Write the header */
+
+  write4charSignature( "8BPS", f, error );
+
+  //Version
+  write16bitInteger( 1, f, error );
+
+  //Reserved ( must be 0 )
+  write32bitInteger( 0, f, error );
+  write16bitInteger( 0, f, error );
 
   write16bitInteger( channels,f, error );
   write32bitInteger( height, f, error );
   write32bitInteger( width, f, error );
 
-  write16bitInteger( precision, f, error );
+  write16bitInteger( depth, f, error );
   write16bitInteger( color_mode, f, error );
 
   g_debug ("\n\n\tChannels: "
@@ -84,7 +125,7 @@ guint32 save_psd_header( FILE* f, GError** error, gint32 merged_layer, gint32 pr
            channels,
            height,
            width,
-           precision,
+           depth,
            color_mode );
 
   return 0;

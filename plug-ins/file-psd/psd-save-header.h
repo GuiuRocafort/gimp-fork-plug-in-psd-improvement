@@ -22,20 +22,11 @@
 #ifndef __PSD_SAVE_HEADER__
 #define __PSD_SAVE_HEADER__
 
-#include "config.h"
-
-#include <errno.h>
-#include <string.h>
-
-#include <glib/gstdio.h>
-
-#include "libgimp/gimp.h"
-#include "libgimp/gimpui.h"
-
+#include "common.h"
 #include "save-utils.h"
 
-#include "psd.h"
-
-guint32 save_psd_header( FILE* f, GError** error, gint32 image_id, gint32 precision );
+guint32 save_psd_header( FILE* f,
+                         GIMPimage *img,
+                         GError** error );
 
 #endif

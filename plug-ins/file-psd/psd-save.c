@@ -30,7 +30,7 @@ guint32 save_image( const char* filename,
   gint32* layers;
   gint32 merged_layer;
   gboolean has_alpha;
-  GimpPrecision precision;
+  GIMPimage img;
   gint i;
 
   //OPEN FILE
@@ -52,20 +52,14 @@ guint32 save_image( const char* filename,
     gimp_layer_flatten( merged_layer  );
   }
 
-  GIMPimage gimg;
-  gimg.base_type = gimp_image_base_type( image_ID );
-  gimg.precision = gimp_image_get_precision( image_ID );
-  gimg.image_type = gimp_drawable_type_with_alpha( merged_layer );
-  gimg.width = gimp_image_width( image_ID );
-  gimg.height = gimp_image_height( image_ID );
-
-  /*
-    depth, color_mode, gimp_base_type, gimp_image_type,
-    Babl* pixel_format
-   */
+  img.base_type = gimp_image_base_type( image_ID );
+  img.precision = gimp_image_get_precision( image_ID );
+  img.image_type = gimp_drawable_type_with_alpha( merged_layer );
+  img.width = gimp_image_width( image_ID );
+  img.height = gimp_image_height( image_ID );
 
   //WRITE FILE HEADER
-  save_psd_header( f, error, merged_layer, precision );
+  save_psd_header( f, &img, error );
 
   //WRITE COLOR MODE
   g_debug("WRITE EMPTY COLOR MODE");

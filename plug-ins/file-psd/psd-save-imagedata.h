@@ -21,19 +21,8 @@
 #ifndef __PSD_SAVE_IMAGEDATA__
 #define __PSD_SAVE_IMAGEDATA__
 
-#include "config.h"
-
-#include <string.h>
-
-#include <libgimp/gimp.h>
-#include <libgimp/gimpui.h>
-
-#include "psd.h"
-#include "psd-load.h"
-#include "psd-save.h"
+#include "common.h"
 #include "save-utils.h"
-
-#include "libgimp/stdplugins-intl.h"
 
 guint32 save_imagedata( FILE* f, gint32 merged_image, GError **error );
 

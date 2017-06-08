@@ -21,14 +21,7 @@
 #ifndef __PSD_LOAD_COLOR_MODE__
 #define __PSD_LOAD_COLOR_MODE__
 
-#include "config.h"
-
-#include <string.h>
-#include <errno.h>
-
-#include <glib/gstdio.h>
-#include <zlib.h>
-#include <libgimp/gimp.h>
+#include "common.h"
 #include "load-utils.h"
 
 guint32 read_color_mode( FILE* f, GError **error );
