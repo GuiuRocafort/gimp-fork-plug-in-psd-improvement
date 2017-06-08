@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.54)
+AC_PREREQ([2.69])
 
 # Making releases on the stable branch:
 #   gimp_micro_version += 1;
@@ -84,9 +84,7 @@ m4_define([webpdemux_required_version], [0.5.1])
 # version of gettext with more version numbers, please update the tests.
 m4_define([xgettext_recommended_version], [0.19])
 
-AC_INIT([GIMP], [gimp_version],
-        [http://bugzilla.gnome.org/enter_bug.cgi?product=GIMP],
-        [gimp])
+AC_INIT([GIMP],[gimp_version],[http://bugzilla.gnome.org/enter_bug.cgi?product=GIMP],[gimp])
 
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([app/core/gimp.c])
@@ -2509,6 +2507,7 @@ plug-ins/file-fli/Makefile
 plug-ins/file-ico/Makefile
 plug-ins/file-jpeg/Makefile
 plug-ins/file-psd/Makefile
+plug-ins/file-psd/tests/Makefile
 plug-ins/file-sgi/Makefile
 plug-ins/file-tiff/Makefile
 plug-ins/file-webp/Makefile

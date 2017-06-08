@@ -28,7 +28,8 @@ TESTS = \
 	test-single-window-mode				\
 	test-tools					\
 	test-ui						\
-	test-xcf
+	test-xcf					\
+	test-psd
 
 EXTRA_PROGRAMS = $(TESTS)
 CLEANFILES = $(EXTRA_PROGRAMS)
