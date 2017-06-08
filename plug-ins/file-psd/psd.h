@@ -78,4 +78,12 @@ typedef struct
   gboolean has_alpha;
 } PSDimage;
 
+typedef struct
+{
+  GimpImageBaseType base_type;
+  GimpPrecision precision;
+  GimpImageType image_type;
+  gint32 width, height;
+} GIMPimage;
+
 #endif /* __PSD_H__ */

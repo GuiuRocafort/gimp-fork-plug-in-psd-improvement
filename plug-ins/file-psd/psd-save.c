@@ -37,8 +37,6 @@ guint32 save_image( const char* filename,
   f = open_file_wb( filename, error );
   if( f == NULL ) return -1;
 
-  precision = gimp_image_get_precision( image_ID );
-
   //CREATE MERGED LAYER
   has_alpha = FALSE;
   layers = gimp_image_get_layers( image_ID, &nlayers );
@@ -53,6 +51,18 @@ guint32 save_image( const char* filename,
   if( !has_alpha ){
     gimp_layer_flatten( merged_layer  );
   }
+
+  GIMPimage gimg;
+  gimg.base_type = gimp_image_base_type( image_ID );
+  gimg.precision = gimp_image_get_precision( image_ID );
+  gimg.image_type = gimp_drawable_type_with_alpha( merged_layer );
+  gimg.width = gimp_image_width( image_ID );
+  gimg.height = gimp_image_height( image_ID );
+
+  /*
+    depth, color_mode, gimp_base_type, gimp_image_type,
+    Babl* pixel_format
+   */
 
   //WRITE FILE HEADER
   save_psd_header( f, error, merged_layer, precision );
