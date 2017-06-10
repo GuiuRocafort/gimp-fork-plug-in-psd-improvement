@@ -65,15 +65,9 @@ guint32 save_image( const char* filename,
   //WRITE FILE RESOURCES
   if( save_image_resources( f, error, image_ID ) == -1 ) return -1;
 
-  //WRITE LAYER AND MASK INFORMATION SECTION
-  if( nLayers < 0 )
-    {
-      g_debug("WRITE EMPTY LAYER AND MASK");
-      write32bitInteger( 0, f, error );
-    }
-  else{
-    save_layer_mask(f, layers, nLayers, error);
-  }
+  //WRITE EMPTY LAYER AND MASK INFORMATION SECTION
+  g_debug("WRITE EMPTY LAYER AND MASK");
+  write32bitInteger( 0, f, error );
 
   //WRITE IMAGE DATA
   save_imagedata(f, merged_layer, error );
