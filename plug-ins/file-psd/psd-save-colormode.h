@@ -18,12 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PSD_SAVE_IMAGEDATA__
-#define __PSD_SAVE_IMAGEDATA__
+#ifndef __PSD_SAVE_COLOR_MODE__
+#define __PSD_SAVE_COLOR_MODE__
 
-#include "common.h"
 #include "save-utils.h"
 
-guint32 save_imagedata( FILE* f, gint32 merged_image, GError **error );
+guint32 save_colormode( FILE* f, gint32 image_ID, GError **error );
 
 #endif

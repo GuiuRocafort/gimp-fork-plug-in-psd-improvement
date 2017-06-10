@@ -36,6 +36,16 @@ FILE* open_file_wb( const gchar* filename, GError** error )
   return f;
 }
 
+guint32 write1Byte( guchar c, FILE* f, GError **error )
+{
+  if( fwrite( &c, 1, 1, f ) == 0 )
+    {
+      return -1;
+    }
+
+  return 0;
+}
+
 guint32 write4charSignature( const gchar* sig, FILE* f, GError** error )
 {
   size_t result = fwrite( sig, 4, 1, f);
@@ -62,22 +72,21 @@ guint32 write16bitInteger( gint16 value, FILE* f, GError** error )
   return 0;
 }
 
-
 guint32 write32bitInteger( gint32 value, FILE* f, GError** error )
 {
-   guchar b[4];
+  guchar b[4];
 
-   b[3] = value & 255;
-   b[2] = (value >> 8) & 255;
-   b[1] = (value >> 16) & 255;
-   b[0] = (value >> 24) & 255;
+  b[3] = value & 255;
+  b[2] = (value >> 8) & 255;
+  b[1] = (value >> 16) & 255;
+  b[0] = (value >> 24) & 255;
 
-   if (fwrite (&b, 1, 4, f) == 0)
-     {
-       return -1;
-     }
+  if (fwrite (&b, 1, 4, f) == 0)
+    {
+      return -1;
+    }
 
-   return 0;
+  return 0;
 }
 
 const Babl* get_drawable_format( gint32 layer, gint32* channels )
@@ -166,7 +175,27 @@ const Babl* get_drawable_format( gint32 layer, gint32* channels )
   //INDEXED
   if( gimp_drawable_is_indexed( layer ) )
     {
-      //TODO
+      if( alpha )
+        {
+          *channels = 2;
+          pixel = bpp / *channels;
+          switch( pixel )
+            {
+            case 2:
+              format = gimp_drawable_get_format(layer);
+              break;
+            }
+        }
+      else{
+        *channels = 1;
+        pixel = bpp / *channels;
+        switch( pixel )
+          {
+          case 1:
+            format = gimp_drawable_get_format(layer);
+            break;
+          }
+      }
     }
 
   return format;
@@ -223,4 +252,165 @@ guint32 write_raw_imagedata( FILE* f, gint32 layer, GError** error )
   fwrite( output_pixels, 1, length, f );
 
   return 0;
+}
+
+void get_psd_layer_blending_mode( gint32 layer, gchar* psdMode )
+{
+
+  switch (gimp_layer_get_mode (layer ) )
+    {
+    case GIMP_LAYER_MODE_NORMAL_LEGACY:
+      strcpy (psdMode, "norm");
+      break;
+    case GIMP_LAYER_MODE_DARKEN_ONLY:
+    case GIMP_LAYER_MODE_DARKEN_ONLY_LEGACY:
+      strcpy (psdMode, "dark");
+      break;
+    case GIMP_LAYER_MODE_LIGHTEN_ONLY:
+    case GIMP_LAYER_MODE_LIGHTEN_ONLY_LEGACY:
+      strcpy (psdMode, "lite");
+      break;
+    case GIMP_LAYER_MODE_LCH_HUE:
+    case GIMP_LAYER_MODE_HSV_HUE_LEGACY:
+      strcpy (psdMode, "hue ");
+      break;
+    case GIMP_LAYER_MODE_LCH_CHROMA:
+    case GIMP_LAYER_MODE_HSV_SATURATION_LEGACY:
+      strcpy (psdMode, "sat ");
+      break;
+    case GIMP_LAYER_MODE_LCH_COLOR:
+    case GIMP_LAYER_MODE_HSL_COLOR_LEGACY:
+      strcpy (psdMode, "colr");
+      break;
+    case GIMP_LAYER_MODE_ADDITION:
+    case GIMP_LAYER_MODE_ADDITION_LEGACY:
+      strcpy (psdMode, "lddg");
+      break;
+    case GIMP_LAYER_MODE_MULTIPLY:
+    case GIMP_LAYER_MODE_MULTIPLY_LEGACY:
+      strcpy (psdMode, "mul ");
+      break;
+    case GIMP_LAYER_MODE_SCREEN:
+    case GIMP_LAYER_MODE_SCREEN_LEGACY:
+      strcpy (psdMode, "scrn");
+      break;
+    case GIMP_LAYER_MODE_DISSOLVE:
+      strcpy (psdMode, "diss");
+      break;
+    case GIMP_LAYER_MODE_DIFFERENCE:
+    case GIMP_LAYER_MODE_DIFFERENCE_LEGACY:
+      strcpy (psdMode, "diff");
+      break;
+    case GIMP_LAYER_MODE_LCH_LIGHTNESS:
+    case GIMP_LAYER_MODE_HSV_VALUE_LEGACY:                  /* ? */
+      strcpy (psdMode, "lum ");
+      break;
+    case GIMP_LAYER_MODE_HARDLIGHT:
+    case GIMP_LAYER_MODE_HARDLIGHT_LEGACY:
+      strcpy (psdMode, "hLit");
+      break;
+    case GIMP_LAYER_MODE_OVERLAY_LEGACY:
+    case GIMP_LAYER_MODE_SOFTLIGHT_LEGACY:
+      strcpy (psdMode, "sLit");
+      break;
+    case GIMP_LAYER_MODE_OVERLAY:
+      strcpy (psdMode, "over");
+      break;
+    case GIMP_LAYER_MODE_DODGE:
+    case GIMP_LAYER_MODE_DODGE_LEGACY:
+      strcpy (psdMode, "div");
+      break;
+    case GIMP_LAYER_MODE_EXCLUSION:
+      strcpy (psdMode, "smud");
+      break;
+    case GIMP_LAYER_MODE_BURN:
+    case GIMP_LAYER_MODE_BURN_LEGACY:
+      strcpy (psdMode, "idiv");
+      break;
+    case GIMP_LAYER_MODE_LINEAR_BURN:
+      strcpy (psdMode, "lbrn");
+      break;
+    case GIMP_LAYER_MODE_LINEAR_LIGHT:
+      strcpy (psdMode, "lLit");
+      break;
+    case GIMP_LAYER_MODE_PIN_LIGHT:
+      strcpy (psdMode, "pLit");
+      break;
+    case GIMP_LAYER_MODE_VIVID_LIGHT:
+      strcpy (psdMode, "vLit");
+      break;
+    case GIMP_LAYER_MODE_HARD_MIX:
+      strcpy (psdMode, "hMix");
+      break;
+      //Unsupported layer blending mode
+    default:
+      psdMode = NULL;
+    }
+
+}
+
+gint32
+write_pascal_string (const gchar  *src,
+                      guint16       mod_len,
+                      FILE         *f,
+                      GError      **error)
+{
+  /*
+   *  Converts utf-8 string to current locale and writes as pascal
+   *  string with padding to a multiple of mod_len.
+   */
+
+  gchar  *str;
+  gchar  *pascal_str;
+  gchar   null_str = 0x0;
+  guchar  pascal_len;
+  gint32  bytes_written = 0;
+  gsize   len;
+
+  if (src == NULL)
+    {
+      /* Write null string as two null bytes (0x0) */
+      if (fwrite (&null_str, 1, 1, f) < 1
+          || fwrite (&null_str, 1, 1, f) < 1)
+        {
+          return -1;
+        }
+      bytes_written += 2;
+    }
+  else
+    {
+      str = g_locale_from_utf8 (src, -1, NULL, &len, NULL);
+      if (len > 255)
+        pascal_len = 255;
+      else
+        pascal_len = len;
+      pascal_str = g_strndup (str, pascal_len);
+      g_free (str);
+      if (fwrite (&pascal_len, 1, 1, f) < 1
+          || fwrite (pascal_str, pascal_len, 1, f) < 1)
+        {
+          g_free (pascal_str);
+          return -1;
+        }
+      bytes_written++;
+      bytes_written += pascal_len;
+     g_debug ("Pascal string: %s, bytes_written: %d",
+                        pascal_str, bytes_written);
+      g_free (pascal_str);
+    }
+
+  /* Pad with nulls */
+  if (mod_len > 0)
+    {
+      while (bytes_written % mod_len != 0)
+        {
+          if (fwrite (&null_str, 1, 1, f) < 1)
+            {
+              return -1;
+            }
+          bytes_written++;
+        }
+    }
+
+  return bytes_written;
 }

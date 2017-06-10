@@ -28,6 +28,9 @@ static void  run   (const gchar     *name,
                     gint            *nreturn_vals,
                     GimpParam      **return_vals);
 
+static void setCallingError( gint *nreturn_vals,
+                      GimpParam **return_vals );
+
 static void setSuccessReturnValue( gint *nreturn_vals,
                             GimpParam **return_vals,
                             guint32 image_ID );
@@ -168,13 +171,16 @@ run (const gchar      *name,
   INIT_I18N ();
   gegl_init (NULL, NULL);
 
-  switch( run_mode){
+  switch( run_mode ){
   case GIMP_RUN_INTERACTIVE:
   case GIMP_RUN_WITH_LAST_VALS:
     gimp_ui_init( PLUG_IN_BINARY, FALSE );
     break;
-  default:
+  case GIMP_RUN_NONINTERACTIVE:
     break;
+  default:
+    setCallingError( nreturn_vals, return_vals );
+    return;
   }
 
   //Load Procedure
@@ -219,12 +225,20 @@ run (const gchar      *name,
     }
 
   //Unknown procedure
-  else
-    {
-      //Call error
+  else{
+      setCallingError( nreturn_vals, return_vals );
     }
 }
 
+static void
+setCallingError( gint *nreturn_vals, GimpParam **return_vals )
+{
+  static GimpParam* value;
+  *nreturn_vals = 1;
+  *return_vals = value;
+
+  value[0].type = GIMP_PDB_CALLING_ERROR;
+}
 
 static void
 setSuccessReturnValue( gint *nreturn_vals, GimpParam **return_vals, guint32 image_ID )
@@ -266,7 +280,7 @@ setExecutionErrorReturnValue( gint* nreturn_vals, GimpParam **return_vals, GErro
 
   values[0].type = GIMP_PDB_STATUS;
   values[0].data.d_status = GIMP_PDB_EXECUTION_ERROR;
-  if( error )
+  if( *error )
     {
       values[1].type = GIMP_PDB_STRING;
       values[1].data.d_string =  "Execution ERROR ";

@@ -20,7 +20,6 @@
 
  #include "psd-save-imagedata.h"
 
-
 guint32 save_imagedata( FILE* f, gint32 merged_layer, GError **error )
 {
 
@@ -41,6 +40,7 @@ guint32 save_imagedata( FILE* f, gint32 merged_layer, GError **error )
     case GIMP_INDEXED_IMAGE:
     case GIMP_INDEXEDA_IMAGE:
       g_debug("INDEXED");
+      write_raw_imagedata( f, merged_layer, error );
       return -1;
       break;
     default:

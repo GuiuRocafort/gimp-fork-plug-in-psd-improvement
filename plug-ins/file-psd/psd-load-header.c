@@ -106,14 +106,14 @@ guint32 read_file_header( FILE* f, PSDimage *img, GError** error )
     {
     case PSD_GRAYSCALE:
       img->gimp_base_type = GIMP_GRAY;
-      g_error("Grayscale images not supported");
-      return -1;
       break;
     case PSD_RGB:
       img->gimp_base_type = GIMP_RGB;
       break;
-    case PSD_BITMAP:
     case PSD_INDEXED:
+      img->gimp_base_type = GIMP_INDEXED;
+      break;
+    case PSD_BITMAP:
     case PSD_CMYK:
     case PSD_MULTICHANNEL:
     case PSD_DUOTONE:
@@ -128,7 +128,7 @@ guint32 read_file_header( FILE* f, PSDimage *img, GError** error )
       break;
     }
 
-  // Find out Babl pixel format
+  //RGB
   if( img->gimp_base_type == GIMP_RGB )
     {
       if( img->channels == 3 )
@@ -174,49 +174,95 @@ guint32 read_file_header( FILE* f, PSDimage *img, GError** error )
       }
     }
 
-    if( img->gimp_base_type == GIMP_GRAY )
-      {
-        if( img->channels == 1 )
-          {
-            img->gimp_image_type = GIMP_GRAY_IMAGE;
-            switch( img->gimp_precision )
-              {
-              case GIMP_PRECISION_U8_GAMMA:
-                img->pixel_format = babl_format("Y' u8");
-                break;
-              case GIMP_PRECISION_U16_GAMMA:
-                img->pixel_format = babl_format("Y' u16");
-                break;
-              case GIMP_PRECISION_U32_GAMMA:
-                img->pixel_format = babl_format("Y' u32");
-                break;
-              default:
-                return -1;
-              }
-          }
-        else if( img->channels == 2 )
-          {
-            img->gimp_image_type = GIMP_GRAYA_IMAGE;
-            img->has_alpha = TRUE;
-            switch( img->gimp_precision )
-              {
-              case GIMP_PRECISION_U8_GAMMA:
-                img->pixel_format = babl_format("Y'A u8");
-                break;
-              case GIMP_PRECISION_U16_GAMMA:
-                img->pixel_format = babl_format("Y'A u16");
-                break;
-              case GIMP_PRECISION_U32_GAMMA:
-                img->pixel_format = babl_format("Y'A u32");
-                break;
-              default:
-                return -1;
-              }
-          }
-        else{
-          g_error("Invalid combination of color mode and channels ");
+  // GRAYSCALE
+  if( img->gimp_base_type == GIMP_GRAY )
+    {
+      if( img->channels == 1 )
+        {
+          img->gimp_image_type = GIMP_GRAY_IMAGE;
+          switch( img->gimp_precision )
+            {
+            case GIMP_PRECISION_U8_GAMMA:
+              img->pixel_format = babl_format("Y' u8");
+              break;
+            case GIMP_PRECISION_U16_GAMMA:
+              img->pixel_format = babl_format("Y' u16");
+              break;
+            case GIMP_PRECISION_U32_GAMMA:
+              img->pixel_format = babl_format("Y' u32");
+              break;
+            default:
+              return -1;
+            }
         }
+      else if( img->channels == 2 )
+        {
+          img->gimp_image_type = GIMP_GRAYA_IMAGE;
+          img->has_alpha = TRUE;
+          switch( img->gimp_precision )
+            {
+            case GIMP_PRECISION_U8_GAMMA:
+              img->pixel_format = babl_format("Y'A u8");
+              break;
+            case GIMP_PRECISION_U16_GAMMA:
+              img->pixel_format = babl_format("Y'A u16");
+              break;
+            case GIMP_PRECISION_U32_GAMMA:
+              img->pixel_format = babl_format("Y'A u32");
+              break;
+            default:
+              return -1;
+            }
+        }
+      else{
+        return -1;
       }
+    }
+
+  // INDEXED
+  if( img->gimp_base_type == GIMP_INDEXED )
+    {
+      if( img->channels == 1 )
+        {
+          img->gimp_image_type = GIMP_GRAY_IMAGE;
+          switch( img->gimp_precision )
+            {
+            case GIMP_PRECISION_U8_GAMMA:
+              img->pixel_format = babl_format("Y' u8");
+              break;
+            case GIMP_PRECISION_U16_GAMMA:
+              img->pixel_format = babl_format("Y' u16");
+              break;
+            case GIMP_PRECISION_U32_GAMMA:
+              img->pixel_format = babl_format("Y' u32");
+              break;
+            default:
+              return -1;
+            }
+        }
+      else if( img->channels == 2 )
+        {
+          img->gimp_image_type = GIMP_GRAYA_IMAGE;
+          img->has_alpha = TRUE;
+          switch( img->gimp_precision )
+            {
+            case GIMP_PRECISION_U8_GAMMA:
+              img->pixel_format = babl_format("Y'A u8");
+              break;
+            case GIMP_PRECISION_U16_GAMMA:
+              img->pixel_format = babl_format("Y'A u16");
+              break;
+            case GIMP_PRECISION_U32_GAMMA:
+              img->pixel_format = babl_format("Y'A u32");
+              break;
+            default:
+              return -1;
+            }
+        }
+      else{
+        return -1;
+      }
+    }
 
   return 0;
 }

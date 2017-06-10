@@ -25,6 +25,8 @@
 #include "save-utils.h"
 #include "psd-save-header.h"
 #include "psd-save-img-res.h"
+#include "psd-save-layer-mask.h"
+#include "psd-save-colormode.h"
 #include "psd-save-imagedata.h"
 
 guint32 save_image( const char* filename,

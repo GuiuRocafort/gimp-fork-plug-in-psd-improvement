@@ -22,7 +22,7 @@ AM_LDFLAGS = $(mwindows)
 libexecdir = $(gimpplugindir)/plug-ins
 
 libexec_PROGRAMS = \
-	file-psd 
+	file-psd
 
 file_psd_SOURCES = \
 	psd.c			\
@@ -51,6 +51,10 @@ file_psd_SOURCES = \
 	psd-save-header.h	\
 	psd-save-img-res.c	\
 	psd-save-img-res.h	\
+	psd-save-layer-mask.c	\
+	psd-save-layer-mask.h	\
+	psd-save-colormode.c	\
+	psd-save-colormode.h	\
 	psd-save-imagedata.c	\
 	psd-save-imagedata.h	\
 	save-utils.c		\
@@ -82,5 +86,3 @@ file_psd_LDADD = \
 	$(INTLLIBS)		\
 	$(Z_LIBS)		\
 	$(file_psd_RC)
-
-SUBDIRS = tests
