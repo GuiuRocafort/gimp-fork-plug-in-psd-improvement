@@ -57,6 +57,8 @@ guint32 load_image( const char* filename, gboolean *resolution_loaded, GError **
   if( read_image_data ( f, image_ID, &img, error ) == -1 ) return -1;
 
   //CLOSE IMAGE
+  gimp_image_clean_all(image_ID);
+  gimp_image_undo_enable( image_ID );
   fclose( f );
 
   return image_ID;
