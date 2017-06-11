@@ -30,7 +30,4 @@ read_color_mode( FILE* f,
                  gint32 image_ID,
                  GError **error );
 
-static void
-psd_to_gimp_color_map (guchar *map256);
-
 #endif

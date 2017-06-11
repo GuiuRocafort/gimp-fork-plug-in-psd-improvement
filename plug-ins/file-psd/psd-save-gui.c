@@ -19,12 +19,14 @@
  */
 
 #include "psd-save-gui.h"
-#include <gtk/gtk.h>
 
 /* Local functions */
 static void export_response( GtkWidget *widget,
-                                  gint response_id,
-                                  gpointer data );
+                             gint response_id,
+                             gpointer data );
+
+static void colormode_changed( GtkWidget *widget,
+                               gpointer data );
 
 
 gboolean
@@ -99,6 +101,7 @@ save_dialog( GIMPimage* img )
     }
 
   /* Set active element the original color mode */
+  active_colormode = 3;
   switch( img->base_type )
     {
     case GIMP_RGB:
@@ -110,6 +113,8 @@ save_dialog( GIMPimage* img )
     case GIMP_INDEXED:
       active_colormode = 2;
       break;
+    default:
+      return -1;
     }
 
   gtk_combo_box_set_active( color_mode_menu, active_colormode );
@@ -122,12 +127,17 @@ save_dialog( GIMPimage* img )
 
   /* Pixel depth Select Menu */
   pixel_depth_menu = gtk_combo_box_new_text( );
-  gtk_combo_box_append_text( pixel_depth_menu, "1 bit" );
   gtk_combo_box_append_text( pixel_depth_menu, "8 bits" );
   gtk_combo_box_append_text( pixel_depth_menu, "16 bits" );
   gtk_combo_box_append_text( pixel_depth_menu, "32 bits" );
+  gtk_combo_box_set_active( pixel_depth_menu, 0 );
 
   gtk_box_pack_start( GTK_BOX(hbox2), pixel_depth_menu, FALSE, FALSE, 0 );
+
+  /* Change signal for the color mode select */
+  g_signal_connect ( color_mode_menu, "changed",
+                     G_CALLBACK (colormode_changed),
+                     pixel_depth_menu );
 
   /* Show the dialog */
   gtk_widget_show_all( dialog );
@@ -137,8 +147,8 @@ save_dialog( GIMPimage* img )
 }
 
 static void export_response( GtkWidget *widget,
-                                  gint response_id,
-                                  gpointer data )
+                             gint response_id,
+                             gpointer data )
 {
   gboolean* answer = data;
 
@@ -153,4 +163,54 @@ static void export_response( GtkWidget *widget,
       gtk_widget_destroy( widget);
       break;
     }
+}
+
+static void colormode_changed( GtkWidget *widget,
+                               gpointer data )
+{
+  GtkWidget* pixel_depth_menu = data;
+  gchar* new_colormode;
+
+  new_colormode = gtk_combo_box_get_active_text( widget );
+
+  gtk_widget_destroy( pixel_depth_menu );
+
+  if( strcmp( new_colormode, "BITMAP" ) == 0 )
+    {
+      //1 bit
+      gtk_combo_box_append_text( pixel_depth_menu, "1 bit" );
+    }
+  if( strcmp( new_colormode, "GRAYSCALE" ) == 0 )
+    {
+      //8, 16, 32
+      gtk_combo_box_append_text( pixel_depth_menu, "8 bits" );
+      gtk_combo_box_append_text( pixel_depth_menu, "16 bits" );
+      gtk_combo_box_append_text( pixel_depth_menu, "32 bits" );
+    }
+  if( strcmp( new_colormode, "INDEXED" ) == 0 )
+    {
+      //8 bits
+      gtk_combo_box_append_text( pixel_depth_menu, "8 bits" );
+    }
+  if( strcmp( new_colormode, "RGB" ) == 0 )
+    {
+      //8, 16, 32
+      gtk_combo_box_append_text( pixel_depth_menu, "8 bits" );
+      gtk_combo_box_append_text( pixel_depth_menu, "16 bits" );
+      gtk_combo_box_append_text( pixel_depth_menu, "32 bits" );
+    }
+  if( strcmp( new_colormode, "CMYK" ) == 0 )
+    {
+      //8, 16
+      gtk_combo_box_append_text( pixel_depth_menu, "8 bits" );
+      gtk_combo_box_append_text( pixel_depth_menu, "16 bits" );
+    }
+  if( strcmp( new_colormode, "LAB" ) == 0 )
+    {
+      // 8, 16
+      gtk_combo_box_append_text( pixel_depth_menu, "8 bits" );
+      gtk_combo_box_append_text( pixel_depth_menu, "16 bits" );
+    }
+
+  g_debug("ColorMode changed: %s", new_colormode );
 }

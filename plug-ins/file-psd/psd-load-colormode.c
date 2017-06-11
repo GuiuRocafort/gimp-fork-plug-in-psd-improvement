@@ -20,6 +20,12 @@
 
 #include "psd-load-colormode.h"
 
+/* Local functions */
+
+static void
+psd_to_gimp_color_map (guchar *map256);
+
+
 guint32 read_color_mode( FILE* f, PSDimage* img, gint32 image_ID, GError** error )
 {
   guint32 length;
