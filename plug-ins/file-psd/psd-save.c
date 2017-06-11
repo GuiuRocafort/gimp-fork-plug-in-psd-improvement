@@ -22,6 +22,7 @@
 
 guint32 save_image( const char* filename,
                     gint32 image_ID,
+                    gboolean show_dialog,
                     GError **error )
 
 {
@@ -30,6 +31,7 @@ guint32 save_image( const char* filename,
   gint32* layers;
   gint32 merged_layer;
   GIMPimage img;
+  gboolean dialog_return;
 
   //OPEN FILE
   f = open_file_wb( filename, error );
@@ -49,6 +51,13 @@ guint32 save_image( const char* filename,
   img.image_type = gimp_drawable_type( merged_layer );
   img.width = gimp_image_width( image_ID );
   img.height = gimp_image_height( image_ID );
+
+  if( show_dialog )
+    {
+      g_debug("SHOW EXPORT DIALOG");
+      dialog_return = save_dialog( &img );
+      g_debug("Dialog return: %i", dialog_return );
+    }
 
   //WRITE FILE HEADER
   save_psd_header( f, &img, error );

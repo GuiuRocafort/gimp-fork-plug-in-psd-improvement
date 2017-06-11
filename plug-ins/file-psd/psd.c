@@ -164,6 +164,7 @@ run (const gchar      *name,
   gint32            image_ID = -1;
   GError            *error = NULL;
   gboolean         resolution_loaded;
+  gboolean          show_dialog = FALSE;
   gint width, height;
 
   run_mode = param[0].data.d_int32;
@@ -174,6 +175,7 @@ run (const gchar      *name,
   switch( run_mode ){
   case GIMP_RUN_INTERACTIVE:
   case GIMP_RUN_WITH_LAST_VALS:
+    show_dialog = TRUE;
     gimp_ui_init( PLUG_IN_BINARY, FALSE );
     break;
   case GIMP_RUN_NONINTERACTIVE:
@@ -214,7 +216,7 @@ run (const gchar      *name,
   //Save File
   else if (strcmp (name, SAVE_PROC) == 0)
     {
-      if( save_image( param[3].data.d_string, param[1].data.d_int32 , &error  ) != -1 )
+      if( save_image( param[3].data.d_string, param[1].data.d_int32 , show_dialog, &error  ) != -1 )
         {
           setSuccessReturnValue( nreturn_vals, return_vals, image_ID );
         }

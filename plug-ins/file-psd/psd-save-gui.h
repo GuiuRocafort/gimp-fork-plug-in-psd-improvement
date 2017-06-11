@@ -18,21 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PSD_SAVE__
-#define __PSD_SAVE__
+#ifndef __PSD_SAVE_GUI__
+#define __PSD_SAVE_GUI__
 
 #include "common.h"
-#include "save-utils.h"
-#include "psd-save-header.h"
-#include "psd-save-img-res.h"
-#include "psd-save-layer-mask.h"
-#include "psd-save-colormode.h"
-#include "psd-save-imagedata.h"
-#include "psd-save-gui.h"
 
-guint32 save_image( const char* filename,
-                    gint32 image_id ,
-                    gboolean show_dialog,
-                    GError **error );
+gboolean
+save_dialog( GIMPimage* img  );
 
 #endif

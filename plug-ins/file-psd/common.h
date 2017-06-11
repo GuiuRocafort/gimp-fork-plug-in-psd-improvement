@@ -81,6 +81,10 @@ typedef struct
   GimpPrecision precision;
   GimpImageType image_type;
   gint32 width, height;
+
+  Babl* dst_format;
+  gint16 dst_color_mode;
+
 } GIMPimage;
 
 #define PSD_MAX_CHANNELS 56

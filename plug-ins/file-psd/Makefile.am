@@ -47,6 +47,8 @@ file_psd_SOURCES = \
 	load-utils.h		\
 	psd-save.c		\
 	psd-save.h		\
+	psd-save-gui.c		\
+	psd-save-gui.h		\
 	psd-save-header.c	\
 	psd-save-header.h	\
 	psd-save-img-res.c	\
