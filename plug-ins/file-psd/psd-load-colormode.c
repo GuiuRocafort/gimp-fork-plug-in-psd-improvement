@@ -20,10 +20,10 @@
 
 #include "psd-load-colormode.h"
 
-guint32 read_color_mode( FILE* f, GError** error )
+guint32 read_color_mode( FILE* f, PSDimage* img, gint32 image_ID, GError** error )
 {
-  guint32 skip_section;
   guint32 length;
+  guchar* color_map = NULL;
 
   g_debug( "COLOR MODE" );
 
@@ -31,16 +31,47 @@ guint32 read_color_mode( FILE* f, GError** error )
   if( length == -1 ) return -1;
   g_debug ( "Length: %d\n", length );
 
-  //Skip rest of color mode section
-  if( length > 0 )
+  //Indexed
+  if( img->color_mode == PSD_INDEXED  && length != 768 )
     {
-      g_debug("SKIPPING COLOR MODE SECTION");
-      skip_section = skipFileBlock( f, length );
-      if( skip_section == -1)
+      g_debug("Invalid Indexed Image length: %i", length );
+      return -1;
+    }
+
+  //Indexed color map
+  if( img->color_mode == PSD_INDEXED )
+    {
+      color_map = g_malloc( length );
+      if( fread( color_map, length, 1 , f ) < 1 )
         {
           return -1;
         }
+
+      psd_to_gimp_color_map( color_map );
+      gimp_image_set_colormap( image_ID, color_map, 256 );
+
+      g_free( color_map );
     }
 
   return 0;
+}
+
+
+static void
+psd_to_gimp_color_map (guchar *map256)
+{
+  guchar *tmpmap;
+  gint    i;
+
+  tmpmap = g_malloc (768);
+
+  for (i = 0; i < 256; ++i)
+    {
+      tmpmap[i*3  ] = map256[i];
+      tmpmap[i*3+1] = map256[i+256];
+      tmpmap[i*3+2] = map256[i+512];
+    }
+
+  memcpy (map256, tmpmap, 768);
+  g_free (tmpmap);
 }

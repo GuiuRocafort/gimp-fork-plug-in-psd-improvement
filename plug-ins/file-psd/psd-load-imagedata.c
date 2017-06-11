@@ -74,7 +74,7 @@ guint32 read_raw_image_data( FILE* f, guint32 image_ID, PSDimage *img ,GError **
                              "Background",
                              img->width,
                              img->height,
-                             GIMP_RGB_IMAGE,
+                             img->gimp_image_type,
                              100,
                              GIMP_LAYER_MODE_NORMAL_LEGACY
                              );

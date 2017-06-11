@@ -24,6 +24,13 @@
 #include "common.h"
 #include "load-utils.h"
 
-guint32 read_color_mode( FILE* f, GError **error );
+guint32
+read_color_mode( FILE* f,
+                 PSDimage* img,
+                 gint32 image_ID,
+                 GError **error );
+
+static void
+psd_to_gimp_color_map (guchar *map256);
 
 #endif

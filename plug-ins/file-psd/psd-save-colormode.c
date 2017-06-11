@@ -27,8 +27,8 @@ static void reshuffle_cmap_write (guchar *mapGimp);
 guint32
 save_colormode( FILE* f, gint32 image_ID, GError **error )
 {
-  guchar *cmap;
-  guchar *cmap_modified;
+  guchar *cmap = NULL;
+  guchar *cmap_modified = NULL;
   gint    i;
   gint32  nColors;
 
@@ -44,6 +44,8 @@ save_colormode( FILE* f, gint32 image_ID, GError **error )
   else if (nColors != 256)
     {
       g_debug ("WRITTING INDEXED COLORMODE");
+      g_debug ("Less than 256 entries, padding with 0s");
+
       write32bitInteger(768, f, error );
 
       cmap_modified = g_malloc (768);

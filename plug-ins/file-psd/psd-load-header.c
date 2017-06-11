@@ -224,25 +224,21 @@ guint32 read_file_header( FILE* f, PSDimage *img, GError** error )
     {
       if( img->channels == 1 )
         {
-          img->gimp_image_type = GIMP_GRAY_IMAGE;
+          img->gimp_image_type = GIMP_INDEXED_IMAGE;
           switch( img->gimp_precision )
             {
             case GIMP_PRECISION_U8_GAMMA:
               img->pixel_format = babl_format("Y' u8");
               break;
             case GIMP_PRECISION_U16_GAMMA:
-              img->pixel_format = babl_format("Y' u16");
-              break;
             case GIMP_PRECISION_U32_GAMMA:
-              img->pixel_format = babl_format("Y' u32");
-              break;
             default:
               return -1;
             }
         }
       else if( img->channels == 2 )
         {
-          img->gimp_image_type = GIMP_GRAYA_IMAGE;
+          img->gimp_image_type = GIMP_INDEXEDA_IMAGE;
           img->has_alpha = TRUE;
           switch( img->gimp_precision )
             {
@@ -250,11 +246,7 @@ guint32 read_file_header( FILE* f, PSDimage *img, GError** error )
               img->pixel_format = babl_format("Y'A u8");
               break;
             case GIMP_PRECISION_U16_GAMMA:
-              img->pixel_format = babl_format("Y'A u16");
-              break;
             case GIMP_PRECISION_U32_GAMMA:
-              img->pixel_format = babl_format("Y'A u32");
-              break;
             default:
               return -1;
             }

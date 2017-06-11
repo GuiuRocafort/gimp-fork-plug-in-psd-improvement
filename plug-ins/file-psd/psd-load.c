@@ -45,7 +45,7 @@ guint32 load_image( const char* filename, gboolean *resolution_loaded, GError **
   gimp_image_undo_disable( image_ID );
 
   //READ COLOR MODE
-  if( read_color_mode( f , error ) == -1 ) return -1;
+  if( read_color_mode( f , &img, image_ID, error ) == -1 ) return -1;
 
   //READ FILE RESOURCES
   if( read_img_res( f, error ) == -1 ) return -1;
