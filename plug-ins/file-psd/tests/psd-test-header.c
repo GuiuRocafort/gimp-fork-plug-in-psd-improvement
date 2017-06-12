@@ -4,7 +4,7 @@
 int main( int argc, char* argv[] )
 {
   /*
-    FILE* f = NULL;
+  FILE* f = NULL;
   GIMPimage gimg;
   PSDimage pimg;
   GError* error = NULL;
@@ -36,7 +36,7 @@ int main( int argc, char* argv[] )
   if( read_file_header( f, &pimg, &error ) == -1 )
     {
       return -1;
-      }
+    }
 
   fclose(f);
   */

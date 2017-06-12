@@ -110,7 +110,22 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am_test_header_OBJECTS = psd-test-header.$(OBJEXT)
+am__dirstamp = $(am__leading_dot)dirstamp
+am_test_header_OBJECTS = psd-test-header.$(OBJEXT) \
+	../psd-load.$(OBJEXT) ../load/psd-load-header.$(OBJEXT) \
+	../load/psd-load-colormode.$(OBJEXT) \
+	../load/psd-load-img-res.$(OBJEXT) \
+	../load/load-resources.$(OBJEXT) \
+	../load/psd-load-layer-mask.$(OBJEXT) \
+	../load/psd-load-imagedata.$(OBJEXT) \
+	../load/load-utils.$(OBJEXT) ../psd-thumb-load.$(OBJEXT) \
+	../psd-save.$(OBJEXT) ../save/psd-save-gui.$(OBJEXT) \
+	../save/psd-save-header.$(OBJEXT) \
+	../save/psd-save-img-res.$(OBJEXT) \
+	../save/psd-save-layer-mask.$(OBJEXT) \
+	../save/psd-save-colormode.$(OBJEXT) \
+	../save/psd-save-imagedata.$(OBJEXT) \
+	../save/save-utils.$(OBJEXT)
 test_header_OBJECTS = $(am_test_header_OBJECTS)
 am__DEPENDENCIES_1 =
 test_header_DEPENDENCIES = $(libgimpui) $(libgimpwidgets) \
@@ -390,7 +405,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/depcomp \
 	$(top_srcdir)/test-driver
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 AA_LIBS = -laa
-ACLOCAL = ${SHELL} /home/guiu/code/gimp_orig/missing aclocal-1.15
+ACLOCAL = ${SHELL} /home/guiu/code/gimp-fork-plug-in-psd-improvement/missing aclocal-1.15
 ALLOCA = 
 ALL_LINGUAS = 
 ALSA_CFLAGS = 
@@ -404,9 +419,9 @@ AS = as
 ATK_CFLAGS = -I/usr/include/atk-1.0 -I/usr/include/glib-2.0 -I/usr/lib/i386-linux-gnu/glib-2.0/include
 ATK_LIBS = -latk-1.0 -lgobject-2.0 -lglib-2.0
 ATK_REQUIRED_VERSION = 2.2.0
-AUTOCONF = ${SHELL} /home/guiu/code/gimp_orig/missing autoconf
-AUTOHEADER = ${SHELL} /home/guiu/code/gimp_orig/missing autoheader
-AUTOMAKE = ${SHELL} /home/guiu/code/gimp_orig/missing automake-1.15
+AUTOCONF = ${SHELL} /home/guiu/code/gimp-fork-plug-in-psd-improvement/missing autoconf
+AUTOHEADER = ${SHELL} /home/guiu/code/gimp-fork-plug-in-psd-improvement/missing autoheader
+AUTOMAKE = ${SHELL} /home/guiu/code/gimp-fork-plug-in-psd-improvement/missing automake-1.15
 AWK = mawk
 BABL_CFLAGS = -I/home/guiu/local_installs/include/babl-0.1
 BABL_LIBS = -L/home/guiu/local_installs/lib -lbabl-0.1
@@ -430,7 +445,7 @@ CCASDEPMODE = depmode=gcc3
 CCASFLAGS = -g -O2
 CCDEPMODE = depmode=gcc3
 CC_FOR_BUILD = gcc
-CFLAGS = -g -g -O2 -Wall -Wdeclaration-after-statement -Wmissing-prototypes -Werror=missing-prototypes  -Wmissing-declarations -Winit-self -Wpointer-arith  -Wmissing-format-attribute -Wformat-security -Wlogical-op -Wtype-limits -fno-common -fdiagnostics-show-option -Wreturn-type  
+CFLAGS = -g -O0 -g -O2 -Wall -Wdeclaration-after-statement -Wmissing-prototypes -Werror=missing-prototypes  -Wmissing-declarations -Winit-self -Wpointer-arith  -Wmissing-format-attribute -Wformat-security -Wlogical-op -Wtype-limits -fno-common -fdiagnostics-show-option -Wreturn-type  
 CFLAGS_FOR_BUILD = -g -O2
 CPP = gcc -E
 CPPFLAGS =  -DGIMP_DISABLE_DEPRECATED -DBABL_DISABLE_DEPRECATED -DGSEAL_ENABLE -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGDK_MULTIHEAD_SAFE -DGTK_MULTIHEAD_SAFE
@@ -590,7 +605,7 @@ LZMA_CFLAGS =
 LZMA_LIBS = -llzma
 MAIL = mail$(EXEEXT)
 MAINT = 
-MAKEINFO = ${SHELL} /home/guiu/code/gimp_orig/missing makeinfo
+MAKEINFO = ${SHELL} /home/guiu/code/gimp-fork-plug-in-psd-improvement/missing makeinfo
 MANIFEST_TOOL = :
 MIME_INFO_CFLAGS = 
 MIME_INFO_LIBS = 
@@ -718,10 +733,10 @@ X_EXTRA_LIBS =
 X_LIBS = 
 X_PRE_LIBS =  -lSM -lICE
 Z_LIBS = -lz
-abs_builddir = /home/guiu/code/gimp_orig/plug-ins/file-psd/tests
-abs_srcdir = /home/guiu/code/gimp_orig/plug-ins/file-psd/tests
-abs_top_builddir = /home/guiu/code/gimp_orig
-abs_top_srcdir = /home/guiu/code/gimp_orig
+abs_builddir = /home/guiu/code/gimp-fork-plug-in-psd-improvement/plug-ins/file-psd/tests
+abs_srcdir = /home/guiu/code/gimp-fork-plug-in-psd-improvement/plug-ins/file-psd/tests
+abs_top_builddir = /home/guiu/code/gimp-fork-plug-in-psd-improvement
+abs_top_srcdir = /home/guiu/code/gimp-fork-plug-in-psd-improvement
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_CC_FOR_BUILD = gcc
@@ -757,7 +772,7 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/guiu/code/gimp_orig/install-sh
+install_sh = ${SHELL} /home/guiu/code/gimp-fork-plug-in-psd-improvement/install-sh
 intltool__v_merge_options_ = $(intltool__v_merge_options_$(AM_DEFAULT_VERBOSITY))
 intltool__v_merge_options_0 = -q
 libdir = ${exec_prefix}/lib
@@ -798,7 +813,41 @@ load = $(root)/load/
 save = $(root)/save/
 AUTOMAKE_OPTIONS = subdir-objects
 test_header_SOURCES = \
-	psd-test-header.c	\
+	psd-test-header.c			\
+	../psd-load.c				\
+	../psd-load.h				\
+	../load/psd-load-header.c			\
+	../load/psd-load-header.h			\
+	../load/psd-load-colormode.c		\
+	../load/psd-load-colormode.h		\
+	../load/psd-load-img-res.c			\
+	../load/psd-load-img-res.h			\
+	../load/load-resources.c			\
+	../load/load-resources.h			\
+	../load/psd-load-layer-mask.c		\
+	../load/psd-load-layer-mask.h		\
+	../load/psd-load-imagedata.c		\
+	../load/psd-load-imagedata.h		\
+	../load/load-utils.c			\
+	../load/load-utils.h			\
+	../psd-thumb-load.c			\
+	../psd-thumb-load.h			\
+	../psd-save.c				\
+	../psd-save.h				\
+	../save/psd-save-gui.c			\
+	../save/psd-save-gui.h			\
+	../save/psd-save-header.c			\
+	../save/psd-save-header.h			\
+	../save/psd-save-img-res.c			\
+	../save/psd-save-img-res.h			\
+	../save/psd-save-layer-mask.c		\
+	../save/psd-save-layer-mask.h		\
+	../save/psd-save-colormode.c		\
+	../save/psd-save-colormode.h		\
+	../save/psd-save-imagedata.c		\
+	../save/psd-save-imagedata.h		\
+	../save/save-utils.c			\
+	../save/save-utils.h			\
 	../common.h
 
 AM_CPPFLAGS = \
@@ -871,6 +920,56 @@ clean-checkPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
+../$(am__dirstamp):
+	@$(MKDIR_P) ..
+	@: > ../$(am__dirstamp)
+../$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) ../$(DEPDIR)
+	@: > ../$(DEPDIR)/$(am__dirstamp)
+../psd-load.$(OBJEXT): ../$(am__dirstamp) ../$(DEPDIR)/$(am__dirstamp)
+../load/$(am__dirstamp):
+	@$(MKDIR_P) ../load
+	@: > ../load/$(am__dirstamp)
+../load/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) ../load/$(DEPDIR)
+	@: > ../load/$(DEPDIR)/$(am__dirstamp)
+../load/psd-load-header.$(OBJEXT): ../load/$(am__dirstamp) \
+	../load/$(DEPDIR)/$(am__dirstamp)
+../load/psd-load-colormode.$(OBJEXT): ../load/$(am__dirstamp) \
+	../load/$(DEPDIR)/$(am__dirstamp)
+../load/psd-load-img-res.$(OBJEXT): ../load/$(am__dirstamp) \
+	../load/$(DEPDIR)/$(am__dirstamp)
+../load/load-resources.$(OBJEXT): ../load/$(am__dirstamp) \
+	../load/$(DEPDIR)/$(am__dirstamp)
+../load/psd-load-layer-mask.$(OBJEXT): ../load/$(am__dirstamp) \
+	../load/$(DEPDIR)/$(am__dirstamp)
+../load/psd-load-imagedata.$(OBJEXT): ../load/$(am__dirstamp) \
+	../load/$(DEPDIR)/$(am__dirstamp)
+../load/load-utils.$(OBJEXT): ../load/$(am__dirstamp) \
+	../load/$(DEPDIR)/$(am__dirstamp)
+../psd-thumb-load.$(OBJEXT): ../$(am__dirstamp) \
+	../$(DEPDIR)/$(am__dirstamp)
+../psd-save.$(OBJEXT): ../$(am__dirstamp) ../$(DEPDIR)/$(am__dirstamp)
+../save/$(am__dirstamp):
+	@$(MKDIR_P) ../save
+	@: > ../save/$(am__dirstamp)
+../save/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) ../save/$(DEPDIR)
+	@: > ../save/$(DEPDIR)/$(am__dirstamp)
+../save/psd-save-gui.$(OBJEXT): ../save/$(am__dirstamp) \
+	../save/$(DEPDIR)/$(am__dirstamp)
+../save/psd-save-header.$(OBJEXT): ../save/$(am__dirstamp) \
+	../save/$(DEPDIR)/$(am__dirstamp)
+../save/psd-save-img-res.$(OBJEXT): ../save/$(am__dirstamp) \
+	../save/$(DEPDIR)/$(am__dirstamp)
+../save/psd-save-layer-mask.$(OBJEXT): ../save/$(am__dirstamp) \
+	../save/$(DEPDIR)/$(am__dirstamp)
+../save/psd-save-colormode.$(OBJEXT): ../save/$(am__dirstamp) \
+	../save/$(DEPDIR)/$(am__dirstamp)
+../save/psd-save-imagedata.$(OBJEXT): ../save/$(am__dirstamp) \
+	../save/$(DEPDIR)/$(am__dirstamp)
+../save/save-utils.$(OBJEXT): ../save/$(am__dirstamp) \
+	../save/$(DEPDIR)/$(am__dirstamp)
 
 test_header$(EXEEXT): $(test_header_OBJECTS) $(test_header_DEPENDENCIES) $(EXTRA_test_header_DEPENDENCIES) 
 	@rm -f test_header$(EXEEXT)
@@ -878,10 +977,30 @@ test_header$(EXEEXT): $(test_header_OBJECTS) $(test_header_DEPENDENCIES) $(EXTRA
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f ../*.$(OBJEXT)
+	-rm -f ../load/*.$(OBJEXT)
+	-rm -f ../save/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
 
+include ../$(DEPDIR)/psd-load.Po
+include ../$(DEPDIR)/psd-save.Po
+include ../$(DEPDIR)/psd-thumb-load.Po
+include ../load/$(DEPDIR)/load-resources.Po
+include ../load/$(DEPDIR)/load-utils.Po
+include ../load/$(DEPDIR)/psd-load-colormode.Po
+include ../load/$(DEPDIR)/psd-load-header.Po
+include ../load/$(DEPDIR)/psd-load-imagedata.Po
+include ../load/$(DEPDIR)/psd-load-img-res.Po
+include ../load/$(DEPDIR)/psd-load-layer-mask.Po
+include ../save/$(DEPDIR)/psd-save-colormode.Po
+include ../save/$(DEPDIR)/psd-save-gui.Po
+include ../save/$(DEPDIR)/psd-save-header.Po
+include ../save/$(DEPDIR)/psd-save-imagedata.Po
+include ../save/$(DEPDIR)/psd-save-img-res.Po
+include ../save/$(DEPDIR)/psd-save-layer-mask.Po
+include ../save/$(DEPDIR)/save-utils.Po
 include ./$(DEPDIR)/psd-test-header.Po
 
 .c.o:
@@ -1194,6 +1313,12 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f ../$(DEPDIR)/$(am__dirstamp)
+	-rm -f ../$(am__dirstamp)
+	-rm -f ../load/$(DEPDIR)/$(am__dirstamp)
+	-rm -f ../load/$(am__dirstamp)
+	-rm -f ../save/$(DEPDIR)/$(am__dirstamp)
+	-rm -f ../save/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -1204,7 +1329,7 @@ clean-am: clean-checkPROGRAMS clean-generic clean-libtool \
 	mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ../$(DEPDIR) ../load/$(DEPDIR) ../save/$(DEPDIR) ./$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -1250,7 +1375,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ../$(DEPDIR) ../load/$(DEPDIR) ../save/$(DEPDIR) ./$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

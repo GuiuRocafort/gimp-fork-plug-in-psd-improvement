@@ -16,8 +16,42 @@ AUTOMAKE_OPTIONS = subdir-objects
 check_PROGRAMS = \
 	test_header
 
-test_header_SOURCES = 		\
-	psd-test-header.c	\
+test_header_SOURCES = 	\
+	psd-test-header.c			\
+	../psd-load.c				\
+	../psd-load.h				\
+	../load/psd-load-header.c			\
+	../load/psd-load-header.h			\
+	../load/psd-load-colormode.c		\
+	../load/psd-load-colormode.h		\
+	../load/psd-load-img-res.c			\
+	../load/psd-load-img-res.h			\
+	../load/load-resources.c			\
+	../load/load-resources.h			\
+	../load/psd-load-layer-mask.c		\
+	../load/psd-load-layer-mask.h		\
+	../load/psd-load-imagedata.c		\
+	../load/psd-load-imagedata.h		\
+	../load/load-utils.c			\
+	../load/load-utils.h			\
+	../psd-thumb-load.c			\
+	../psd-thumb-load.h			\
+	../psd-save.c				\
+	../psd-save.h				\
+	../save/psd-save-gui.c			\
+	../save/psd-save-gui.h			\
+	../save/psd-save-header.c			\
+	../save/psd-save-header.h			\
+	../save/psd-save-img-res.c			\
+	../save/psd-save-img-res.h			\
+	../save/psd-save-layer-mask.c		\
+	../save/psd-save-layer-mask.h		\
+	../save/psd-save-colormode.c		\
+	../save/psd-save-colormode.h		\
+	../save/psd-save-imagedata.c		\
+	../save/psd-save-imagedata.h		\
+	../save/save-utils.c			\
+	../save/save-utils.h			\
 	../common.h
 
 AM_CPPFLAGS = \
