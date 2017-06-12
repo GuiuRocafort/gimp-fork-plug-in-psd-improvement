@@ -1,11 +1,10 @@
-#include "psd-load-header.h"
-#include "psd-save-header.h"
-#include "common.h"
+#include <stdio.h>
+#include "../common.h"
 
 int main( int argc, char* argv[] )
 {
-
-  FILE* f = NULL;
+  /*
+    FILE* f = NULL;
   GIMPimage gimg;
   PSDimage pimg;
   GError* error = NULL;
@@ -24,7 +23,6 @@ int main( int argc, char* argv[] )
   gimg.width = 2;
   gimg.height = 2;
 
-  /*
   //Call psd_save_header
   if( save_psd_header( f, &gimg, &error ) == -1 )
     {
@@ -39,8 +37,9 @@ int main( int argc, char* argv[] )
     {
       return -1;
       }
-  */
 
   fclose(f);
+  */
+  
   return 0;
 }

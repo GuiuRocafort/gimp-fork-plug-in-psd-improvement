@@ -1,5 +1,4 @@
 ## Process this file with automake to produce Makefile.in
-
 libgimpui = $(top_builddir)/libgimp/libgimpui-$(GIMP_API_VERSION).la
 libgimpconfig = $(top_builddir)/libgimpconfig/libgimpconfig-$(GIMP_API_VERSION).la
 libgimpwidgets = $(top_builddir)/libgimpwidgets/libgimpwidgets-$(GIMP_API_VERSION).la
@@ -8,46 +7,30 @@ libgimpcolor = $(top_builddir)/libgimpcolor/libgimpcolor-$(GIMP_API_VERSION).la
 libgimpbase = $(top_builddir)/libgimpbase/libgimpbase-$(GIMP_API_VERSION).la
 libgimpmath = $(top_builddir)/libgimpmath/libgimpmath-$(GIMP_API_VERSION).la
 
-if OS_WIN32
-mwindows = -mwindows
-endif
+root = $(top_builddir)/plug-ins/file-psd
+load = $(root)/load/
+save = $(root)/save/
 
-if HAVE_WINDRES
-include $(top_srcdir)/build/windows/gimprc-plug-ins.rule
-file_psd_RC = file-psd.rc.o
-endif
+AUTOMAKE_OPTIONS = subdir-objects
 
-AM_LDFLAGS = $(mwindows)
+check_PROGRAMS = \
+	test_header
 
-libexecdir = $(gimpplugindir)/plug-ins
-
-libexec_PROGRAMS = \
-	file-psd
-
-file_psd_SOURCES = \
-	psd-load-header.c	\
-	psd-load-header.h	\
-	psd-load-colormode.c	\
-	psd-load-colormode.h	\
-	psd-load-img-res.c	\
-	psd-load-img-res.h	\
-	load-resources.c	\
-	load-resources.h	\
-	psd-load-layer-mask.c	\
-	psd-load-layer-mask.h	\
-	psd-load-imagedata.c	\
-	psd-load-imagedata.h	\
+test_header_SOURCES = 		\
+	psd-test-header.c	\
 	../common.h
 
 AM_CPPFLAGS = \
-	-DG_LOG_DOMAIN=\"file-psd\"	\
 	-I$(top_srcdir)			\
 	$(GTK_CFLAGS)			\
 	$(EXIF_CFLAGS)			\
 	$(GEGL_CFLAGS)			\
-	-I$(includedir)
+	$(includedir)			\
+	$(root)				\
+	$(load)				\
+	$(save)
 
-file_psd_LDADD = \
+test_header_LDADD = \
 	$(libgimpui)		\
 	$(libgimpwidgets)	\
 	$(libgimpconfig)	\
@@ -65,7 +48,4 @@ file_psd_LDADD = \
 	$(Z_LIBS)		\
 	$(file_psd_RC)
 
-SUBDIRS = \
-	load	\
-	save	\
-	tests
+TESTS = test_header

@@ -90,3 +90,6 @@ file_psd_LDADD = \
 	$(INTLLIBS)		\
 	$(Z_LIBS)		\
 	$(file_psd_RC)
+
+SUBDIRS = \
+	tests

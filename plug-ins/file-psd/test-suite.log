@@ -1,0 +1,21 @@
+==================================================
+   GIMP 2.9.5: plug-ins/file-psd/test-suite.log
+==================================================
+
+# TOTAL: 1
+# PASS:  0
+# SKIP:  0
+# XFAIL: 0
+# FAIL:  1
+# XPASS: 0
+# ERROR: 0
+
+.. contents:: :depth: 2
+
+FAIL: test_header
+=================
+
+
+(process:24937): file-psd-ERROR **: Cannot create file for testing 
+FAIL test_header (exit status: 133)
+
