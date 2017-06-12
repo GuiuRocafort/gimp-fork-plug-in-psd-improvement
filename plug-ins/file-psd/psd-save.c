@@ -31,7 +31,8 @@ guint32 save_image( const char* filename,
   gint32* layers;
   gint32 merged_layer;
   GIMPimage img;
-  gboolean dialog_return;
+  PSDimage psd;
+  Babl* export_format;
 
   //OPEN FILE
   f = open_file_wb( filename, error );
@@ -55,8 +56,7 @@ guint32 save_image( const char* filename,
   if( show_dialog )
     {
       g_debug("SHOW EXPORT DIALOG");
-      dialog_return = save_dialog( &img );
-      g_debug("Dialog return: %i", dialog_return );
+      export_format = save_dialog( &img, &psd );
     }
 
   //WRITE FILE HEADER

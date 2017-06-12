@@ -18,16 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PSD_LOAD_COLOR_MODE__
-#define __PSD_LOAD_COLOR_MODE__
+#ifndef __PSD_LOAD_IMAGE_DATA__
+#define __PSD_LOAD_IMAGE_DATA__
 
-#include "common.h"
+#include "../common.h"
 #include "load-utils.h"
 
-guint32
-read_color_mode( FILE* f,
-                 PSDimage* img,
-                 gint32 image_ID,
-                 GError **error );
+guint32 read_image_data( FILE* f, guint32 image_ID, PSDimage *img, GError **error );
+
+guint32 read_raw_image_data( FILE* f, guint32 image_ID, PSDimage *img, GError **error );
 
 #endif

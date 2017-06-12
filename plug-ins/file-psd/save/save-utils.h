@@ -21,7 +21,7 @@
 #ifndef __SAVE_UTILS__
 #define __SAVE_UTILS__
 
-#include "common.h"
+#include "../common.h"
 
 FILE*
 open_file_wb( const gchar* filename,

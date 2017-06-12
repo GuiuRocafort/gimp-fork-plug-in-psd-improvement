@@ -18,12 +18,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PSD_SAVE_IMG_RES__
-#define __PSD_SAVE_IMG_RES__
+#ifndef __PSD_LOAD_COLOR_MODE__
+#define __PSD_LOAD_COLOR_MODE__
 
-#include "common.h"
-#include "save-utils.h"
+#include "../common.h"
+#include "load-utils.h"
 
-guint32 save_image_resources( FILE* f, GError** error, gint32 image_ID );
+guint32
+read_color_mode( FILE* f,
+                 PSDimage* img,
+                 gint32 image_ID,
+                 GError **error );
 
 #endif

@@ -22,7 +22,7 @@
 #ifndef __PSD_SAVE_HEADER__
 #define __PSD_SAVE_HEADER__
 
-#include "common.h"
+#include "../common.h"
 #include "save-utils.h"
 
 guint32 save_psd_header( FILE* f,

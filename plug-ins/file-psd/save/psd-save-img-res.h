@@ -18,12 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PSD_SAVE_GUI__
-#define __PSD_SAVE_GUI__
+#ifndef __PSD_SAVE_IMG_RES__
+#define __PSD_SAVE_IMG_RES__
 
-#include "common.h"
+#include "../common.h"
+#include "save-utils.h"
 
-gboolean
-save_dialog( GIMPimage* img  );
+guint32 save_image_resources( FILE* f, GError** error, gint32 image_ID );
 
 #endif

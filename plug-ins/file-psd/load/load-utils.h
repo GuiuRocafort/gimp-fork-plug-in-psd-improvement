@@ -18,12 +18,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PSD_LOAD_HEADER__
-#define __PSD_LOAD_HEADER__
+#ifndef __PSD_LOAD_UTILS__
+#define __PSD_LOAD_UTILS__
 
-#include "common.h"
-#include "load-utils.h"
+#include "../common.h"
 
-guint32 read_file_header(FILE *f, PSDimage* img, GError** error );
+/* File opening */
+FILE* open_file( const gchar* filename, GError** error );
+
+/* Data reading functions */
+void readPascalString( FILE* f, gchar* str, gint32 *str_len );
+void read4charSignature( FILE* f, gchar* signature );
+guint16 read16bitInteger( FILE* f );
+guint32 read32bitInteger( FILE* f );
+
+/* Block skipping */
+guint32 skipFileBlock( FILE* f, guint32 length );
+
+guint32 read_raw_imagedata( FILE* f, gint32 layer, GError** error );
 
 #endif

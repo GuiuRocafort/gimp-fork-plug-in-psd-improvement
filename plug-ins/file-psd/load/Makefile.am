@@ -17,8 +17,6 @@ include $(top_srcdir)/build/windows/gimprc-plug-ins.rule
 file_psd_RC = file-psd.rc.o
 endif
 
-AUTOMAKE_OPTIONS = subdir-objects
-
 AM_LDFLAGS = $(mwindows)
 
 libexecdir = $(gimpplugindir)/plug-ins
@@ -27,42 +25,42 @@ libexec_PROGRAMS = \
 	file-psd
 
 file_psd_SOURCES = \
-	psd.c					\
-	psd.h					\
-	psd-load.c				\
-	psd-load.h				\
-	load/psd-load-header.c			\
-	load/psd-load-header.h			\
-	load/psd-load-colormode.c		\
-	load/psd-load-colormode.h		\
-	load/psd-load-img-res.c			\
-	load/psd-load-img-res.h			\
-	load/load-resources.c			\
-	load/load-resources.h			\
-	load/psd-load-layer-mask.c		\
-	load/psd-load-layer-mask.h		\
-	load/psd-load-imagedata.c		\
-	load/psd-load-imagedata.h		\
-	load/load-utils.c			\
-	load/load-utils.h			\
-	psd-thumb-load.c			\
-	psd-thumb-load.h			\
-	psd-save.c				\
-	psd-save.h				\
-	save/psd-save-gui.c			\
-	save/psd-save-gui.h			\
-	save/psd-save-header.c			\
-	save/psd-save-header.h			\
-	save/psd-save-img-res.c			\
-	save/psd-save-img-res.h			\
-	save/psd-save-layer-mask.c		\
-	save/psd-save-layer-mask.h		\
-	save/psd-save-colormode.c		\
-	save/psd-save-colormode.h		\
-	save/psd-save-imagedata.c		\
-	save/psd-save-imagedata.h		\
-	save/save-utils.c			\
-	save/save-utils.h			\
+	psd.c			\
+	psd.h			\
+	psd-load.c		\
+	psd-load.h		\
+	psd-load-header.c	\
+	psd-load-header.h	\
+	psd-load-colormode.c	\
+	psd-load-colormode.h	\
+	psd-load-img-res.c	\
+	psd-load-img-res.h	\
+	load-resources.c	\
+	load-resources.h	\
+	psd-load-layer-mask.c	\
+	psd-load-layer-mask.h	\
+	psd-load-imagedata.c	\
+	psd-load-imagedata.h	\
+	psd-thumb-load.c	\
+	psd-thumb-load.h	\
+	load-utils.c		\
+	load-utils.h		\
+	psd-save.c		\
+	psd-save.h		\
+	psd-save-gui.c		\
+	psd-save-gui.h		\
+	psd-save-header.c	\
+	psd-save-header.h	\
+	psd-save-img-res.c	\
+	psd-save-img-res.h	\
+	psd-save-layer-mask.c	\
+	psd-save-layer-mask.h	\
+	psd-save-colormode.c	\
+	psd-save-colormode.h	\
+	psd-save-imagedata.c	\
+	psd-save-imagedata.h	\
+	save-utils.c		\
+	save-utils.h		\
 	common.h
 
 AM_CPPFLAGS = \
@@ -90,3 +88,8 @@ file_psd_LDADD = \
 	$(INTLLIBS)		\
 	$(Z_LIBS)		\
 	$(file_psd_RC)
+
+SUBDIRS = \
+	load	\
+	save	\
+	tests

@@ -21,7 +21,7 @@
 #ifndef __PSD_LOAD_IMG_RES__
 #define __PSD_LOAD_IMG_RES__
 
-#include "common.h"
+#include "../common.h"
 #include "load-utils.h"
 
 /* Image Resource IDs */

@@ -18,11 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PSD_LOAD_RESOURCES__
-#define __PSD_LOAD_RESOURCES__
+#ifndef __PSD_LOAD_HEADER__
+#define __PSD_LOAD_HEADER__
 
-#include "common.h"
+#include "../common.h"
+#include "load-utils.h"
 
-guint32 load_resource_1032( FILE* f );
+guint32 read_file_header(FILE *f, PSDimage* img, GError** error );
 
 #endif

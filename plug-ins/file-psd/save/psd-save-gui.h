@@ -18,12 +18,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PSD_LOAD_LAYER_MASK__
-#define __PSD_LOAD_LAYER_MASK__
+#ifndef __PSD_SAVE_GUI__
+#define __PSD_SAVE_GUI__
 
-#include "common.h"
-#include "load-utils.h"
+#include "../common.h"
 
-guint32 read_layer_mask_info( FILE* f, GError **error );
+Babl*
+save_dialog( GIMPimage* img, PSDimage* psd  );
+
+typedef struct{
+  GtkWidget* color_mode;
+  GtkWidget* pixel_depth;
+  GIMPimage* img;
+  const Babl* format;
+} PSDExportSettings;
 
 #endif

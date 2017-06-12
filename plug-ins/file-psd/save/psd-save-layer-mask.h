@@ -18,24 +18,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PSD_LOAD_UTILS__
-#define __PSD_LOAD_UTILS__
+#ifndef __PSD_SAVE_LAYER_MASK__
+#define __PSD_SAVE_LAYER_MASK__
 
-#include "common.h"
+#include "../common.h"
 #include "save-utils.h"
+#include "../load/load-utils.h"
 
-/* File opening */
-FILE* open_file( const gchar* filename, GError** error );
+guint32 save_layer_mask( FILE* f,
+                         gint32* layers,
+                         gint32 nLayers,
+                         GError **error );
 
-/* Data reading functions */
-void readPascalString( FILE* f, gchar* str, gint32 *str_len );
-void read4charSignature( FILE* f, gchar* signature );
-guint16 read16bitInteger( FILE* f );
-guint32 read32bitInteger( FILE* f );
+guint32 save_layer_info( FILE* f,
+                         gint32* layers,
+                         gint32 nLayers,
+                         GError **error );
 
-/* Block skipping */
-guint32 skipFileBlock( FILE* f, guint32 length );
+guint32 save_layer_records( FILE* f,
+                            gint32 layer,
+                            GError **error );
 
-guint32 read_raw_imagedata( FILE* f, gint32 layer, GError** error );
+
+guint32 save_layer_mask_data( FILE* f,
+                              gint32 layer,
+                              GError **error );
 
 #endif

@@ -22,7 +22,7 @@
 #define __PSD_THUMB_LOAD__
 
 #include "common.h"
-#include "load-utils.h"
+#include "load/load-utils.h"
 
 guint32 load_image_thumbnail ( const gchar* filename,
                                gint32* width,

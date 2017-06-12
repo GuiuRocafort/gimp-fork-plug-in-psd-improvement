@@ -18,30 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PSD_SAVE_LAYER_MASK__
-#define __PSD_SAVE_LAYER_MASK__
+#ifndef __PSD_LOAD_RESOURCES__
+#define __PSD_LOAD_RESOURCES__
 
-#include "common.h"
-#include "save-utils.h"
-#include "load-utils.h"
+#include "../common.h"
 
-guint32 save_layer_mask( FILE* f,
-                         gint32* layers,
-                         gint32 nLayers,
-                         GError **error );
-
-guint32 save_layer_info( FILE* f,
-                         gint32* layers,
-                         gint32 nLayers,
-                         GError **error );
-
-guint32 save_layer_records( FILE* f,
-                            gint32 layer,
-                            GError **error );
-
-
-guint32 save_layer_mask_data( FILE* f,
-                              gint32 layer,
-                              GError **error );
+guint32 load_resource_1032( FILE* f );
 
 #endif

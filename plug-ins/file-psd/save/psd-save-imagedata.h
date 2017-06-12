@@ -21,7 +21,7 @@
 #ifndef __PSD_SAVE_IMAGEDATA__
 #define __PSD_SAVE_IMAGEDATA__
 
-#include "common.h"
+#include "../common.h"
 #include "save-utils.h"
 
 guint32 save_imagedata( FILE* f, gint32 merged_image, GError **error );

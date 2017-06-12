@@ -22,13 +22,13 @@
 #define __PSD_SAVE__
 
 #include "common.h"
-#include "save-utils.h"
-#include "psd-save-header.h"
-#include "psd-save-img-res.h"
-#include "psd-save-layer-mask.h"
-#include "psd-save-colormode.h"
-#include "psd-save-imagedata.h"
-#include "psd-save-gui.h"
+#include "save/save-utils.h"
+#include "save/psd-save-header.h"
+#include "save/psd-save-img-res.h"
+#include "save/psd-save-layer-mask.h"
+#include "save/psd-save-colormode.h"
+#include "save/psd-save-imagedata.h"
+#include "save/psd-save-gui.h"
 
 guint32 save_image( const char* filename,
                     gint32 image_id ,
